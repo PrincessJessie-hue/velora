@@ -308,6 +308,29 @@ footer{
   .hero-title{font-size:2.6rem;}
   footer{flex-direction:column;text-align:center;}
 }
+
+.form-success {
+  padding: 20px;
+  background: #e8fff1;
+  border: 1px solid #2ecc71;
+  color: #1e7d4f;
+  font-size: 16px;
+  border-radius: 12px;
+  text-align: center;
+  margin-top: 20px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
 </head>
 <body>
@@ -591,10 +614,12 @@ footer{
 <!-- CONTACT -->
 <section class="contact reveal" id="contact">
   <div class="contact-inner" style="margin:0 auto;">
+    
     <div class="contact-info reveal">
       <span class="section-label">Get in Touch</span>
       <h2 class="section-title">Let's build<br>something <em>great.</em></h2>
       <p class="section-sub">Tell us about your project. We respond within 24 hours and offer a free first consultation.</p>
+
       <div class="contact-detail">
         <div>
           <div class="contact-item-label">WhatsApp</div>
@@ -612,24 +637,30 @@ footer{
         </div>
       </div>
     </div>
-    <div class="contact-form reveal">
+
+    <!-- ✅ ACTUAL FORM STARTS HERE -->
+    <form class="contact-form reveal" action="https://formspree.io/f/xkokjkdk" method="POST">
+
       <div class="form-group">
         <label>Your Name</label>
-        <input class="form-input" type="text" placeholder="First and last name">
+        <input class="form-input" type="text" name="name" placeholder="First and last name" required>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label>Business Name</label>
-          <input class="form-input" type="text" placeholder="Your business">
+          <input class="form-input" type="text" name="business" placeholder="Your business">
         </div>
+
         <div class="form-group">
           <label>Email Address</label>
-          <input class="form-input" type="email" placeholder="you@example.com">
+          <input class="form-input" type="email" name="email" placeholder="you@example.com" required>
         </div>
       </div>
+
       <div class="form-group">
         <label>Service Needed</label>
-        <select class="form-input">
+        <select class="form-input" name="service" required>
           <option value="" disabled selected>Select a service</option>
           <option>Web Design &amp; Development</option>
           <option>Branding &amp; Logo Design</option>
@@ -640,12 +671,22 @@ footer{
           <option>Other / Not Sure</option>
         </select>
       </div>
+
       <div class="form-group">
         <label>Tell Us About Your Project</label>
-        <textarea class="form-input" placeholder="Share your goals, timeline, budget range, or anything else that helps us understand your project…"></textarea>
+        <textarea class="form-input" name="message" placeholder="Share your goals, timeline, budget range, or anything else that helps us understand your project…" required></textarea>
       </div>
-      <button class="form-submit">Send My Enquiry</button>
-    </div>
+
+      <button class="form-submit" type="submit">Send My Enquiry</button>
+
+      <div id="form-success" class="form-success" style="display:none;">
+        Sent ✨ We’ll get back to you soon.
+      </div>
+
+    </form>
+    <!-- ✅ FORM ENDS HERE -->
+
+
   </div>
 </section>
 
@@ -675,6 +716,21 @@ window.addEventListener('scroll',()=>{
   const nav=document.getElementById('navbar');
   nav.style.boxShadow=window.scrollY>50?'0 2px 30px rgba(35,35,35,.08)':'';
 });
+</script>
+
+<script>
+  const form = document.querySelector(".contact-form");
+  const successMessage = document.getElementById("form-success");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // stops page refresh for now
+
+    // simulate sending delay
+    setTimeout(() => {
+      form.style.display = "none";
+      successMessage.style.display = "block";
+    }, 600);
+  });
 </script>
 </body>
 </html>
