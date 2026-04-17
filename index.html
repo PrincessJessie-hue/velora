@@ -617,53 +617,46 @@ footer{
       </div>
     </div>
     <div class="contact-form reveal">
-      <!-- STEP 1: Form -->
-      <div id="enquiry-form">
+      <form name="contact" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="contact">
+      
         <div class="form-group">
-          <label for="f-name">Your Name *</label>
-          <input id="f-name" class="form-input" type="text" placeholder="First and last name" required>
-          <span class="field-error" id="err-name"></span>
+          <label>Your Name *</label>
+          <input name="name" class="form-input" required>
         </div>
+      
         <div class="form-row">
           <div class="form-group">
-            <label for="f-biz">Business Name</label>
-            <input id="f-biz" class="form-input" type="text" placeholder="Your business">
+            <label>Business Name</label>
+            <input name="business" class="form-input">
           </div>
           <div class="form-group">
-            <label for="f-email">Email Address *</label>
-            <input id="f-email" class="form-input" type="email" placeholder="you@example.com" required>
-            <span class="field-error" id="err-email"></span>
+            <label>Email *</label>
+            <input type="email" name="email" class="form-input" required>
           </div>
         </div>
+      
         <div class="form-group">
-          <label for="f-service">Service Needed *</label>
-          <select id="f-service" class="form-input" required>
-            <option value="" disabled selected>Select a service</option>
-            <option>Web Design &amp; Development</option>
-            <option>Branding &amp; Logo Design</option>
+          <label>Service *</label>
+          <select name="service" class="form-input" required>
+            <option value="">Select a service</option>
+            <option>Web Design & Development</option>
+            <option>Branding & Logo Design</option>
             <option>Landing Page</option>
             <option>E-Commerce Website</option>
             <option>Website Management</option>
             <option>Flyer Design</option>
-            <option>Other / Not Sure</option>
+            <option>Other</option>
           </select>
-          <span class="field-error" id="err-service"></span>
         </div>
+      
         <div class="form-group">
-          <label for="f-msg">Tell Us About Your Project *</label>
-          <textarea id="f-msg" class="form-input" placeholder="Share your goals, timeline, budget range, or anything else that helps us understand your project…" required></textarea>
-          <span class="field-error" id="err-msg"></span>
+          <label>Message *</label>
+          <textarea name="message" class="form-input" required></textarea>
         </div>
-        <div id="form-status" class="form-status" style="display:none"></div>
-        <button type="button" class="form-submit" id="submit-btn" onclick="submitEnquiry()">
-          <span id="btn-text">Send My Enquiry</span>
-          <span id="btn-loading" style="display:none">Sending…</span>
-        </button>
-        <p style="font-size:.75rem;color:var(--taupe);margin-top:.8rem;font-style:italic;">
-          Or reach us directly: <strong style="color:var(--mocha)">veloraastudios@gmail.com</strong> · WA <strong style="color:var(--mocha)">068 268 5622</strong>
-        </p>
-      </div>
-
+      
+        <button type="submit" class="form-submit">Send Enquiry</button>
+      </form>
       <!-- STEP 2: Success state -->
       <div id="form-success" style="display:none;text-align:center;padding:3rem 2rem;">
         <div style="width:56px;height:56px;border-radius:50%;background:var(--oat);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
@@ -688,117 +681,6 @@ footer{
   <div class="footer-copy">© 2024 Velora Studios · veloraastudios@gmail.com</div>
 </footer>
 
-<!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-// ── EmailJS setup ──
-// To activate: sign up free at emailjs.com, create a service + template, paste your IDs below.
-const EMAILJS_PUBLIC_KEY  = 'YC7G5nF1IP5HW-9QVG';   // e.g. 'user_abc123'
-const EMAILJS_SERVICE_ID  = 'service_3m368or';   // e.g. 'service_xyz'
-const EMAILJS_TEMPLATE_ID = 'template_l9p71gi';  // e.g. 'template_abc'
-// EmailJS template variables to map: {{from_name}}, {{business_name}}, {{from_email}}, {{service}}, {{message}}
-
-try { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); } catch(e){}
-
-function validate() {
-  let ok = true;
-  const fields = [
-    { id:'f-name',    err:'err-name',    msg:'Please enter your name.' },
-    { id:'f-email',   err:'err-email',   msg:'Please enter a valid email.', isEmail:true },
-    { id:'f-service', err:'err-service', msg:'Please select a service.' },
-    { id:'f-msg',     err:'err-msg',     msg:'Please tell us about your project.' },
-  ];
-  fields.forEach(f => {
-    const el = document.getElementById(f.id);
-    const er = document.getElementById(f.err);
-    let invalid = !el.value.trim();
-    if (f.isEmail && el.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)) invalid = true;
-    er.textContent = invalid ? f.msg : '';
-    if (invalid) { el.style.borderColor='#c0392b'; ok=false; }
-    else el.style.borderColor='';
-  });
-  return ok;
-}
-
-async function submitEnquiry() {
-  if (!validate()) return;
-
-  const btn     = document.getElementById('submit-btn');
-  const btnText = document.getElementById('btn-text');
-  const btnLoad = document.getElementById('btn-loading');
-  const status  = document.getElementById('form-status');
-
-  btn.disabled = true;
-  btnText.style.display = 'none';
-  btnLoad.style.display = 'inline';
-  status.style.display  = 'none';
-
-  const params = {
-    from_name:     document.getElementById('f-name').value.trim(),
-    business_name: document.getElementById('f-biz').value.trim() || 'Not provided',
-    from_email:    document.getElementById('f-email').value.trim(),
-    service:       document.getElementById('f-service').value,
-    message:       document.getElementById('f-msg').value.trim(),
-    to_email:      'veloraastudios@gmail.com',
-  };
-
-  // If EmailJS is not yet configured, fall back to mailto
-  if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-    const body = encodeURIComponent(
-      `Name: ${params.from_name}\nBusiness: ${params.business_name}\nEmail: ${params.from_email}\nService: ${params.service}\n\n${params.message}`
-    );
-    window.location.href = `mailto:veloraastudios@gmail.com?subject=New Enquiry from ${params.from_name}&body=${body}`;
-    btn.disabled = false;
-    btnText.style.display = 'inline';
-    btnLoad.style.display = 'none';
-    showSuccess();
-    return;
-  }
-
-  try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-    showSuccess();
-  } catch(err) {
-    status.style.display = 'block';
-    status.className = 'form-status error';
-    status.textContent = 'Something went wrong. Please email us directly at veloraastudios@gmail.com';
-    btn.disabled = false;
-    btnText.style.display = 'inline';
-    btnLoad.style.display = 'none';
-  }
-}
-
-function showSuccess() {
-  document.getElementById('enquiry-form').style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
-}
-
-function resetForm() {
-  document.getElementById('enquiry-form').style.display = 'block';
-  document.getElementById('form-success').style.display = 'none';
-  ['f-name','f-biz','f-email','f-msg'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-service').selectedIndex = 0;
-  ['err-name','err-email','err-service','err-msg'].forEach(id => document.getElementById(id).textContent = '');
-  document.getElementById('btn-text').style.display = 'inline';
-  document.getElementById('btn-loading').style.display = 'none';
-  document.getElementById('submit-btn').disabled = false;
-}
-
-// ── Nav toggle ──
-function toggleNav(){ document.getElementById('nav-links').classList.toggle('open'); }
-
-// ── Scroll reveal ──
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
-}, { threshold:.12 });
-reveals.forEach(r => io.observe(r));
-
-// ── Nav shadow on scroll ──
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('navbar');
-  nav.style.boxShadow = window.scrollY > 50 ? '0 2px 30px rgba(35,35,35,.08)' : '';
-});
 </script>
 </body>
 </html>
