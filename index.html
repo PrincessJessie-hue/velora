@@ -823,7 +823,7 @@ async function handleSubmit(e) {
   status.style.display  = 'none';
 
   // If keys haven't been filled in yet, fall back to mailto so no enquiry is lost
-  if (EJS_PUBLIC_KEY === 'C7G5nF1IP5HW-9QVGY') {
+  if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID)
     const name    = document.getElementById('f-name').value.trim();
     const biz     = document.getElementById('f-biz').value.trim() || 'Not provided';
     const email   = document.getElementById('f-email').value.trim();
@@ -843,7 +843,8 @@ async function handleSubmit(e) {
     await emailjs.sendForm(EJS_SERVICE_ID, EJS_TEMPLATE_ID, form);
     showSuccess();
   } catch (err) {
-    console.error('EmailJS error:', err);
+    console.error('EmailJS FULL ERROR:', err);
+alert(JSON.stringify(err));
     status.style.display  = 'block';
     status.className      = 'form-status error';
     status.textContent    = 'Something went wrong. Please email us directly at veloraastudios@gmail.com or WhatsApp 068 268 5622.';
