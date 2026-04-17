@@ -10,7 +10,7 @@
 <style>
 :root {
   --milk: #FBF7F4;
-  --oat: #E5DED2;
+  --oat: #E5DED2; 
   --taupe: #A39382;
   --mocha: #685D54;
   --charcoal: #232323;
@@ -841,11 +841,10 @@ if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
   return;
 }
 
-  // Send via EmailJS — passes the entire <form> element so it reads name="" attributes
-  try {
-    await emailjs.sendForm(EJS_SERVICE_ID, EJS_TEMPLATE_ID, form);
+// Send to YOU (lead notification)
+await emailjs.sendForm(EJS_SERVICE_ID, EJS_TEMPLATE_ID, form);
 
-// 👉 ADD THIS (auto-reply)
+// Send auto-reply to CLIENT
 await emailjs.sendForm(EJS_SERVICE_ID, 'template_uy9t5bb', form);
 
 showSuccess();
