@@ -823,20 +823,23 @@ async function handleSubmit(e) {
   status.style.display  = 'none';
 
   // If keys haven't been filled in yet, fall back to mailto so no enquiry is lost
-  if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID)
-    const name    = document.getElementById('f-name').value.trim();
-    const biz     = document.getElementById('f-biz').value.trim() || 'Not provided';
-    const email   = document.getElementById('f-email').value.trim();
-    const service = document.getElementById('f-service').value;
-    const msg     = document.getElementById('f-msg').value.trim();
-    const body    = encodeURIComponent(
-      `Name: ${name}\nBusiness: ${biz}\nEmail: ${email}\nService: ${service}\n\n${msg}`
-    );
-    window.location.href =
-      `mailto:veloraastudios@gmail.com?subject=New Enquiry – ${name}&body=${body}`;
-    showSuccess();
-    return;
-  }
+  if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
+  const name    = document.getElementById('f-name').value.trim();
+  const biz     = document.getElementById('f-biz').value.trim() || 'Not provided';
+  const email   = document.getElementById('f-email').value.trim();
+  const service = document.getElementById('f-service').value;
+  const msg     = document.getElementById('f-msg').value.trim();
+
+  const body = encodeURIComponent(
+    `Name: ${name}\nBusiness: ${biz}\nEmail: ${email}\nService: ${service}\n\n${msg}`
+  );
+
+  window.location.href =
+    `mailto:veloraastudios@gmail.com?subject=New Enquiry – ${name}&body=${body}`;
+
+  showSuccess();
+  return;
+}
 
   // Send via EmailJS — passes the entire <form> element so it reads name="" attributes
   try {
@@ -844,7 +847,7 @@ async function handleSubmit(e) {
     showSuccess();
   } catch (err) {
     console.error('EmailJS FULL ERROR:', err);
-alert(JSON.stringify(err));
+    alert(JSON.stringify(err));
     status.style.display  = 'block';
     status.className      = 'form-status error';
     status.textContent    = 'Something went wrong. Please email us directly at veloraastudios@gmail.com or WhatsApp 068 268 5622.';
