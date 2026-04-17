@@ -616,86 +616,113 @@ footer{
         </div>
       </div>
     </div>
-    <!-- form -- >
-
-    <div class="contact-form reveal">
-  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/">
-    
-    <!-- REQUIRED FOR NETLIFY -->
-    <input type="hidden" name="form-name" value="contact">
-    <input type="hidden" name="bot-field">
-
-    <div class="form-group">
-      <label>Your Name *</label>
-      <input name="name" class="form-input" required>
-    </div>
-
-    <div class="form-row">
+    <!-- Real <form> element — EmailJS reads name="" attributes directly -->
+    <form
+      id="enquiry-form"
+      class="contact-form reveal"
+      novalidate
+      onsubmit="handleSubmit(event)"
+    >
       <div class="form-group">
-        <label>Business Name</label>
-        <input name="business" class="form-input">
+        <label for="f-name">Your Name *</label>
+        <input
+          id="f-name"
+          name="from_name"
+          class="form-input"
+          type="text"
+          placeholder="First and last name"
+          autocomplete="name"
+        >
+        <span class="field-error" id="err-name"></span>
       </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-biz">Business Name</label>
+          <input
+            id="f-biz"
+            name="business_name"
+            class="form-input"
+            type="text"
+            placeholder="Your business"
+            autocomplete="organization"
+          >
+        </div>
+        <div class="form-group">
+          <label for="f-email">Email Address *</label>
+          <input
+            id="f-email"
+            name="reply_to"
+            class="form-input"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+          >
+          <span class="field-error" id="err-email"></span>
+        </div>
+      </div>
+
       <div class="form-group">
-        <label>Email *</label>
-        <input type="email" name="email" class="form-input" required>
+        <label for="f-service">Service Needed *</label>
+        <select id="f-service" name="service" class="form-input">
+          <option value="">Select a service</option>
+          <option value="Web Design &amp; Development">Web Design &amp; Development</option>
+          <option value="Branding &amp; Logo Design">Branding &amp; Logo Design</option>
+          <option value="Landing Page">Landing Page</option>
+          <option value="E-Commerce Website">E-Commerce Website</option>
+          <option value="Website Management">Website Management</option>
+          <option value="Flyer Design">Flyer Design</option>
+          <option value="Other / Not Sure">Other / Not Sure</option>
+        </select>
+        <span class="field-error" id="err-service"></span>
       </div>
+
+      <div class="form-group">
+        <label for="f-msg">Tell Us About Your Project *</label>
+        <textarea
+          id="f-msg"
+          name="message"
+          class="form-input"
+          placeholder="Share your goals, timeline, budget range, or anything else…"
+        ></textarea>
+        <span class="field-error" id="err-msg"></span>
+      </div>
+
+      <!-- hidden field so EmailJS knows where to send -->
+      <input type="hidden" name="to_name" value="Velora Studios">
+
+      <div id="form-status" class="form-status" style="display:none"></div>
+
+      <button type="submit" class="form-submit" id="submit-btn">
+        <span id="btn-text">Send My Enquiry</span>
+        <span id="btn-loading" style="display:none">Sending…</span>
+      </button>
+
+      <p style="font-size:.75rem;color:var(--taupe);margin-top:.8rem;font-style:italic;">
+        Or reach us directly:
+        <strong style="color:var(--mocha)">veloraastudios@gmail.com</strong>
+        · WA <strong style="color:var(--mocha)">068 268 5622</strong>
+      </p>
+    </form>
+
+    <!-- Success screen (shown after submission) -->
+    <div id="form-success" style="display:none;text-align:center;padding:3rem 2rem;">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--oat);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--mocha)" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--charcoal);margin-bottom:.6rem">Enquiry sent!</h3>
+      <p style="color:var(--mocha);font-size:.95rem;line-height:1.7;margin-bottom:1.5rem">Thank you — we'll be in touch within 24 hours.</p>
+      <button
+        type="button"
+        onclick="resetForm()"
+        style="background:none;border:1px solid var(--oat);padding:.6rem 1.4rem;font-family:var(--body);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);cursor:pointer;transition:.3s;"
+        onmouseover="this.style.borderColor='var(--mocha)'"
+        onmouseout="this.style.borderColor='var(--oat)'"
+      >Send Another</button>
     </div>
 
-    <div class="form-group">
-      <label>Service *</label>
-      <select name="service" class="form-input" required>
-        <option value="">Select a service</option>
-        <option>Web Design & Development</option>
-        <option>Branding & Logo Design</option>
-        <option>Landing Page</option>
-        <option>E-Commerce Website</option>
-        <option>Website Management</option>
-        <option>Flyer Design</option>
-        <option>Other</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Message *</label>
-      <textarea name="message" class="form-input" required></textarea>
-    </div>
-
-    <button type="submit" class="form-submit">Send Enquiry</button>
-  </form>
-
-  <!-- SUCCESS UI -->
-  <div id="form-success" style="display:none;text-align:center;padding:3rem 2rem;">
-    <h3>Enquiry sent!</h3>
-    <p>We’ll get back to you within 24 hours.</p>
-    <button onclick="resetForm()">Send Another</button>
   </div>
-</div>
-<script>
-  const form = document.querySelector("form");
-  const success = document.getElementById("form-success");
-  
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-  
-    const data = new FormData(form);
-  
-    fetch("/", {
-      method: "POST",
-      body: data
-    })
-    .then(() => {
-      form.style.display = "none";
-      success.style.display = "block";
-    })
-    .catch(() => alert("Something went wrong. Try again."));
-  });
-  
-  function resetForm() {
-    form.reset();
-    form.style.display = "block";
-    success.style.display = "none";
-  }
-  </script>
+</section>
 
 <footer>
   <div class="footer-brand">Velora<span>.</span></div>
@@ -708,6 +735,170 @@ footer{
   <div class="footer-copy">© 2024 Velora Studios · veloraastudios@gmail.com</div>
 </footer>
 
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+/*
+  ═══════════════════════════════════════════════
+  EMAILJS SETUP — 3 steps, takes 5 minutes:
+  1. Go to https://emailjs.com and create a free account
+  2. Add a Gmail service (connect veloraastudios@gmail.com)
+  3. Create an Email Template — use these variables in the template body:
+       From:    {{from_name}}  ({{reply_to}})
+       Biz:     {{business_name}}
+       Service: {{service}}
+       Message: {{message}}
+  4. Paste your IDs into the three constants below and you're live.
+  ═══════════════════════════════════════════════
+*/
+const EJS_PUBLIC_KEY  = 'C7G5nF1IP5HW-9QVG';   // Account → API Keys
+const EJS_SERVICE_ID  = 'service_3m368or';   // Email Services tab
+const EJS_TEMPLATE_ID = 'template_l9p71gi';  // Email Templates tab
+
+// Init EmailJS
+emailjs.init({ publicKey: EJS_PUBLIC_KEY });
+
+// ── Validation ──
+function validate() {
+  let valid = true;
+
+  const checks = [
+    {
+      el: document.getElementById('f-name'),
+      err: 'err-name',
+      test: v => v.trim().length > 0,
+      msg: 'Please enter your name.'
+    },
+    {
+      el: document.getElementById('f-email'),
+      err: 'err-email',
+      test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+      msg: 'Please enter a valid email address.'
+    },
+    {
+      el: document.getElementById('f-service'),
+      err: 'err-service',
+      test: v => v !== '',
+      msg: 'Please select a service.'
+    },
+    {
+      el: document.getElementById('f-msg'),
+      err: 'err-msg',
+      test: v => v.trim().length > 10,
+      msg: 'Please tell us a little more about your project.'
+    },
+  ];
+
+  checks.forEach(({ el, err, test, msg }) => {
+    const errEl = document.getElementById(err);
+    if (!test(el.value)) {
+      errEl.textContent = msg;
+      el.style.borderColor = '#c0392b';
+      valid = false;
+    } else {
+      errEl.textContent = '';
+      el.style.borderColor = '';
+    }
+  });
+
+  return valid;
+}
+
+// ── Form submit handler ──
+async function handleSubmit(e) {
+  e.preventDefault(); // stop default browser form submission
+
+  if (!validate()) return;
+
+  const form    = document.getElementById('enquiry-form');
+  const btn     = document.getElementById('submit-btn');
+  const btnText = document.getElementById('btn-text');
+  const btnLoad = document.getElementById('btn-loading');
+  const status  = document.getElementById('form-status');
+
+  // Loading state
+  btn.disabled          = true;
+  btnText.style.display = 'none';
+  btnLoad.style.display = 'inline';
+  status.style.display  = 'none';
+
+  // If keys haven't been filled in yet, fall back to mailto so no enquiry is lost
+  if (EJS_PUBLIC_KEY === 'C7G5nF1IP5HW-9QVGY') {
+    const name    = document.getElementById('f-name').value.trim();
+    const biz     = document.getElementById('f-biz').value.trim() || 'Not provided';
+    const email   = document.getElementById('f-email').value.trim();
+    const service = document.getElementById('f-service').value;
+    const msg     = document.getElementById('f-msg').value.trim();
+    const body    = encodeURIComponent(
+      `Name: ${name}\nBusiness: ${biz}\nEmail: ${email}\nService: ${service}\n\n${msg}`
+    );
+    window.location.href =
+      `mailto:veloraastudios@gmail.com?subject=New Enquiry – ${name}&body=${body}`;
+    showSuccess();
+    return;
+  }
+
+  // Send via EmailJS — passes the entire <form> element so it reads name="" attributes
+  try {
+    await emailjs.sendForm(EJS_SERVICE_ID, EJS_TEMPLATE_ID, form);
+    showSuccess();
+  } catch (err) {
+    console.error('EmailJS error:', err);
+    status.style.display  = 'block';
+    status.className      = 'form-status error';
+    status.textContent    = 'Something went wrong. Please email us directly at veloraastudios@gmail.com or WhatsApp 068 268 5622.';
+    btn.disabled          = false;
+    btnText.style.display = 'inline';
+    btnLoad.style.display = 'none';
+  }
+}
+
+function showSuccess() {
+  document.getElementById('enquiry-form').style.display  = 'none';
+  document.getElementById('form-success').style.display  = 'block';
+}
+
+function resetForm() {
+  const form = document.getElementById('enquiry-form');
+  form.reset();
+  ['err-name','err-email','err-service','err-msg'].forEach(id => {
+    document.getElementById(id).textContent = '';
+  });
+  ['f-name','f-email','f-service','f-msg'].forEach(id => {
+    document.getElementById(id).style.borderColor = '';
+  });
+  document.getElementById('btn-text').style.display  = 'inline';
+  document.getElementById('btn-loading').style.display = 'none';
+  document.getElementById('submit-btn').disabled      = false;
+  document.getElementById('form-status').style.display = 'none';
+  form.style.display                = 'block';
+  document.getElementById('form-success').style.display = 'none';
+}
+
+// ── Nav mobile toggle ──
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open');
+}
+
+// ── Scroll reveal ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(r => observer.observe(r));
+
+// ── Nav shadow on scroll ──
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (nav) nav.style.boxShadow = window.scrollY > 50
+    ? '0 2px 30px rgba(35,35,35,.08)'
+    : '';
+});
 </script>
 </body>
 </html>
