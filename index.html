@@ -823,7 +823,7 @@ async function handleSubmit(e) {
   status.style.display  = 'none';
 
   // If keys haven't been filled in yet, fall back to mailto so no enquiry is lost
-  if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
+if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
   const name    = document.getElementById('f-name').value.trim();
   const biz     = document.getElementById('f-biz').value.trim() || 'Not provided';
   const email   = document.getElementById('f-email').value.trim();
