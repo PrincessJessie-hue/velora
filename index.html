@@ -269,6 +269,10 @@ textarea.form-input{height:120px;resize:none;}
   width:100%;margin-top:.5rem;
 }
 .form-submit:hover{background:var(--mocha);}
+.field-error{display:block;font-size:.72rem;color:#c0392b;margin-top:.3rem;font-style:italic;min-height:.9rem;}
+.form-status{padding:.9rem 1.1rem;font-size:.85rem;border-radius:2px;margin-bottom:.5rem;}
+.form-status.error{background:#fdf0f0;color:#c0392b;border:1px solid #f5c6c6;}
+.form-status.success{background:#f0faf4;color:#1e7a3e;border:1px solid #b7e0c6;}
 
 /* ── FOOTER ── */
 footer{
@@ -613,38 +617,62 @@ footer{
       </div>
     </div>
     <div class="contact-form reveal">
-      <div class="form-group">
-        <label>Your Name</label>
-        <input class="form-input" type="text" placeholder="First and last name">
-      </div>
-      <div class="form-row">
+      <!-- STEP 1: Form -->
+      <div id="enquiry-form">
         <div class="form-group">
-          <label>Business Name</label>
-          <input class="form-input" type="text" placeholder="Your business">
+          <label for="f-name">Your Name *</label>
+          <input id="f-name" class="form-input" type="text" placeholder="First and last name" required>
+          <span class="field-error" id="err-name"></span>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-biz">Business Name</label>
+            <input id="f-biz" class="form-input" type="text" placeholder="Your business">
+          </div>
+          <div class="form-group">
+            <label for="f-email">Email Address *</label>
+            <input id="f-email" class="form-input" type="email" placeholder="you@example.com" required>
+            <span class="field-error" id="err-email"></span>
+          </div>
         </div>
         <div class="form-group">
-          <label>Email Address</label>
-          <input class="form-input" type="email" placeholder="you@example.com">
+          <label for="f-service">Service Needed *</label>
+          <select id="f-service" class="form-input" required>
+            <option value="" disabled selected>Select a service</option>
+            <option>Web Design &amp; Development</option>
+            <option>Branding &amp; Logo Design</option>
+            <option>Landing Page</option>
+            <option>E-Commerce Website</option>
+            <option>Website Management</option>
+            <option>Flyer Design</option>
+            <option>Other / Not Sure</option>
+          </select>
+          <span class="field-error" id="err-service"></span>
         </div>
+        <div class="form-group">
+          <label for="f-msg">Tell Us About Your Project *</label>
+          <textarea id="f-msg" class="form-input" placeholder="Share your goals, timeline, budget range, or anything else that helps us understand your project…" required></textarea>
+          <span class="field-error" id="err-msg"></span>
+        </div>
+        <div id="form-status" class="form-status" style="display:none"></div>
+        <button class="form-submit" id="submit-btn" onclick="submitEnquiry()">
+          <span id="btn-text">Send My Enquiry</span>
+          <span id="btn-loading" style="display:none">Sending…</span>
+        </button>
+        <p style="font-size:.75rem;color:var(--taupe);margin-top:.8rem;font-style:italic;">
+          Or reach us directly: <strong style="color:var(--mocha)">veloraastudios@gmail.com</strong> · WA <strong style="color:var(--mocha)">068 268 5622</strong>
+        </p>
       </div>
-      <div class="form-group">
-        <label>Service Needed</label>
-        <select class="form-input">
-          <option value="" disabled selected>Select a service</option>
-          <option>Web Design &amp; Development</option>
-          <option>Branding &amp; Logo Design</option>
-          <option>Landing Page</option>
-          <option>E-Commerce Website</option>
-          <option>Website Management</option>
-          <option>Flyer Design</option>
-          <option>Other / Not Sure</option>
-        </select>
+
+      <!-- STEP 2: Success state -->
+      <div id="form-success" style="display:none;text-align:center;padding:3rem 2rem;">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--oat);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--mocha)" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--charcoal);margin-bottom:.6rem">Enquiry sent!</h3>
+        <p style="color:var(--mocha);font-size:.95rem;line-height:1.7;margin-bottom:1.5rem">Thank you — we'll be in touch within 24 hours. Check your email for a confirmation.</p>
+        <button onclick="resetForm()" style="background:none;border:1px solid var(--oat);padding:.6rem 1.4rem;font-family:var(--body);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);cursor:pointer;transition:.3s;" onmouseover="this.style.borderColor='var(--mocha)'" onmouseout="this.style.borderColor='var(--oat)'">Send Another</button>
       </div>
-      <div class="form-group">
-        <label>Tell Us About Your Project</label>
-        <textarea class="form-input" placeholder="Share your goals, timeline, budget range, or anything else that helps us understand your project…"></textarea>
-      </div>
-      <button class="form-submit">Send My Enquiry</button>
     </div>
   </div>
 </section>
@@ -660,20 +688,116 @@ footer{
   <div class="footer-copy">© 2024 Velora Studios · veloraastudios@gmail.com</div>
 </footer>
 
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-function toggleNav(){
-  document.getElementById('nav-links').classList.toggle('open');
+// ── EmailJS setup ──
+// To activate: sign up free at emailjs.com, create a service + template, paste your IDs below.
+const EMAILJS_PUBLIC_KEY  = 'YC7G5nF1IP5HW-9QVG';   // e.g. 'user_abc123'
+const EMAILJS_SERVICE_ID  = 'service_3m368or';   // e.g. 'service_xyz'
+const EMAILJS_TEMPLATE_ID = 'template_l9p71gi';  // e.g. 'template_abc'
+// EmailJS template variables to map: {{from_name}}, {{business_name}}, {{from_email}}, {{service}}, {{message}}
+
+try { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); } catch(e){}
+
+function validate() {
+  let ok = true;
+  const fields = [
+    { id:'f-name',    err:'err-name',    msg:'Please enter your name.' },
+    { id:'f-email',   err:'err-email',   msg:'Please enter a valid email.', isEmail:true },
+    { id:'f-service', err:'err-service', msg:'Please select a service.' },
+    { id:'f-msg',     err:'err-msg',     msg:'Please tell us about your project.' },
+  ];
+  fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    const er = document.getElementById(f.err);
+    let invalid = !el.value.trim();
+    if (f.isEmail && el.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)) invalid = true;
+    er.textContent = invalid ? f.msg : '';
+    if (invalid) { el.style.borderColor='#c0392b'; ok=false; }
+    else el.style.borderColor='';
+  });
+  return ok;
 }
-// Reveal on scroll
-const reveals=document.querySelectorAll('.reveal');
-const io=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
-},{threshold:.12});
-reveals.forEach(r=>io.observe(r));
-// Nav scroll effect
-window.addEventListener('scroll',()=>{
-  const nav=document.getElementById('navbar');
-  nav.style.boxShadow=window.scrollY>50?'0 2px 30px rgba(35,35,35,.08)':'';
+
+async function submitEnquiry() {
+  if (!validate()) return;
+
+  const btn     = document.getElementById('submit-btn');
+  const btnText = document.getElementById('btn-text');
+  const btnLoad = document.getElementById('btn-loading');
+  const status  = document.getElementById('form-status');
+
+  btn.disabled = true;
+  btnText.style.display = 'none';
+  btnLoad.style.display = 'inline';
+  status.style.display  = 'none';
+
+  const params = {
+    from_name:     document.getElementById('f-name').value.trim(),
+    business_name: document.getElementById('f-biz').value.trim() || 'Not provided',
+    from_email:    document.getElementById('f-email').value.trim(),
+    service:       document.getElementById('f-service').value,
+    message:       document.getElementById('f-msg').value.trim(),
+    to_email:      'veloraastudios@gmail.com',
+  };
+
+  // If EmailJS is not yet configured, fall back to mailto
+  if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+    const body = encodeURIComponent(
+      `Name: ${params.from_name}\nBusiness: ${params.business_name}\nEmail: ${params.from_email}\nService: ${params.service}\n\n${params.message}`
+    );
+    window.location.href = `mailto:veloraastudios@gmail.com?subject=New Enquiry from ${params.from_name}&body=${body}`;
+    btn.disabled = false;
+    btnText.style.display = 'inline';
+    btnLoad.style.display = 'none';
+    showSuccess();
+    return;
+  }
+
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+    showSuccess();
+  } catch(err) {
+    status.style.display = 'block';
+    status.className = 'form-status error';
+    status.textContent = 'Something went wrong. Please email us directly at veloraastudios@gmail.com';
+    btn.disabled = false;
+    btnText.style.display = 'inline';
+    btnLoad.style.display = 'none';
+  }
+}
+
+function showSuccess() {
+  document.getElementById('enquiry-form').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('enquiry-form').style.display = 'block';
+  document.getElementById('form-success').style.display = 'none';
+  ['f-name','f-biz','f-email','f-msg'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-service').selectedIndex = 0;
+  ['err-name','err-email','err-service','err-msg'].forEach(id => document.getElementById(id).textContent = '');
+  document.getElementById('btn-text').style.display = 'inline';
+  document.getElementById('btn-loading').style.display = 'none';
+  document.getElementById('submit-btn').disabled = false;
+}
+
+// ── Nav toggle ──
+function toggleNav(){ document.getElementById('nav-links').classList.toggle('open'); }
+
+// ── Scroll reveal ──
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }});
+}, { threshold:.12 });
+reveals.forEach(r => io.observe(r));
+
+// ── Nav shadow on scroll ──
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  nav.style.boxShadow = window.scrollY > 50 ? '0 2px 30px rgba(35,35,35,.08)' : '';
 });
 </script>
 </body>
