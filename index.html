@@ -844,7 +844,11 @@ if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
   // Send via EmailJS — passes the entire <form> element so it reads name="" attributes
   try {
     await emailjs.sendForm(EJS_SERVICE_ID, EJS_TEMPLATE_ID, form);
-    showSuccess();
+
+// 👉 ADD THIS (auto-reply)
+await emailjs.sendForm(EJS_SERVICE_ID, 'template_uy9t5bb', form);
+
+showSuccess();
   } catch (err) {
     console.error('EmailJS FULL ERROR:', err);
     alert(JSON.stringify(err));
