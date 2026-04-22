@@ -3,909 +3,1211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velora Studios — Design & Digital Agency</title>
+<title>Velora Studios — We Build Websites That Sell</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --milk: #FBF7F4;
-  --oat: #E5DED2; 
-  --taupe: #A39382;
-  --mocha: #685D54;
-  --charcoal: #232323;
-  --white: #FFFFFF;
-  --serif: 'Playfair Display', Georgia, serif;
-  --body: 'Lora', Georgia, serif;
+/*
+  COLOUR PSYCHOLOGY:
+  Amber #F5A623  — energy, urgency, action. Highest CTR colour for creative agency CTAs.
+  Ink   #0D0D0D  — authority, premium, trust. Dark backgrounds increase perceived value.
+  Rust  #C0440F  — confidence, bold action. Used for hover states to deepen urgency.
+  Sage  #6B8F71  — growth, reliability. Used for trust signals and checkmarks.
+  Warm  #FAF8F4  — calm readability. Warm white reads as premium, not clinical.
+*/
+:root{
+  --ink:#0D0D0D;--amber:#F5A623;--amber2:#E8950F;--rust:#C0440F;
+  --warm:#FAF8F4;--sage:#6B8F71;--slate:#1C1F26;--mid:#2A2D35;
+  --muted:#8A8D96;--light:#E8E5DF;--border:rgba(250,248,244,.09);
+  --syne:'Syne',sans-serif;--serif:'DM Serif Display',serif;--sans:'DM Sans',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--body);background:var(--milk);color:var(--charcoal);line-height:1.7;overflow-x:hidden;}
+body{font-family:var(--sans);background:var(--warm);color:var(--ink);overflow-x:hidden;cursor:none;}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(251,247,244,0.95);backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--oat);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.1rem 5%;transition:all .4s;
-}
-.nav-logo{font-family:var(--serif);font-size:1.25rem;font-weight:500;color:var(--charcoal);text-decoration:none;letter-spacing:.02em;}
-.nav-logo span{color:var(--taupe);}
-.nav-links{display:flex;gap:2.2rem;list-style:none;align-items:center;}
-.nav-links a{color:var(--mocha);text-decoration:none;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;font-family:'Lora',serif;transition:color .3s;}
-.nav-links a:hover{color:var(--charcoal);}
-.nav-cta{background:var(--charcoal)!important;color:var(--milk)!important;padding:.6rem 1.4rem;font-size:.75rem!important;letter-spacing:.15em!important;transition:all .3s!important;}
-.nav-cta:hover{background:var(--mocha)!important;color:var(--milk)!important;}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:.5rem;}
-.hamburger span{display:block;width:24px;height:1.5px;background:var(--charcoal);transition:.3s;}
+/* CURSOR */
+.cur{position:fixed;width:10px;height:10px;background:var(--amber);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;}
+.cur-ring{position:fixed;width:34px;height:34px;border:1.5px solid rgba(245,166,35,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .15s ease;}
 
-/* ── HERO ── */
-.hero{
-  min-height:100vh;display:flex;align-items:center;
-  padding:9rem 5% 5rem;position:relative;overflow:hidden;
-  background:var(--milk);
-}
-.hero::before{
-  content:'';position:absolute;right:-10%;top:50%;transform:translateY(-50%);
-  width:55vw;height:55vw;max-width:700px;max-height:700px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(163,147,130,.12) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-content{max-width:700px;position:relative;z-index:1;}
-.hero-eyebrow{
-  font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;
-  color:var(--taupe);margin-bottom:1.8rem;
-  opacity:0;animation:fadeUp .9s ease .2s forwards;
-}
-.hero-title{
-  font-family:var(--serif);font-size:clamp(3rem,6vw,5.5rem);font-weight:500;
-  line-height:1.06;color:var(--charcoal);margin-bottom:1.4rem;
-  opacity:0;animation:fadeUp .9s ease .4s forwards;
-}
-.hero-title em{font-style:italic;color:var(--mocha);}
-.hero-sub{
-  font-size:1.08rem;color:var(--mocha);line-height:1.8;max-width:500px;
-  margin-bottom:2.8rem;
-  opacity:0;animation:fadeUp .9s ease .6s forwards;
-}
-.hero-btns{
-  display:flex;gap:1rem;flex-wrap:wrap;
-  opacity:0;animation:fadeUp .9s ease .8s forwards;
-}
-.btn-primary{
-  background:var(--charcoal);color:var(--milk);
-  padding:.9rem 2.2rem;font-family:var(--body);font-size:.8rem;
-  letter-spacing:.15em;text-transform:uppercase;text-decoration:none;
-  display:inline-block;transition:all .35s;border:2px solid var(--charcoal);
-}
-.btn-primary:hover{background:var(--mocha);border-color:var(--mocha);}
-.btn-secondary{
-  background:transparent;color:var(--charcoal);
-  padding:.9rem 2.2rem;font-family:var(--body);font-size:.8rem;
-  letter-spacing:.15em;text-transform:uppercase;text-decoration:none;
-  display:inline-block;transition:all .35s;border:2px solid var(--oat);
-}
-.btn-secondary:hover{border-color:var(--taupe);color:var(--mocha);}
-.hero-scroll{
-  position:absolute;bottom:2.5rem;left:5%;
-  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);
-  display:flex;align-items:center;gap:.7rem;
-  opacity:0;animation:fadeUp .9s ease 1.1s forwards;
-}
-.hero-scroll::after{content:'';display:block;width:40px;height:1px;background:var(--taupe);}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.3rem 5%;transition:background .4s,backdrop-filter .4s;}
+nav.scrolled{background:rgba(13,13,13,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(245,166,35,.12);}
+.nav-logo{font-family:var(--syne);font-size:1.35rem;font-weight:800;color:var(--warm);text-decoration:none;letter-spacing:-.02em;display:flex;align-items:center;gap:.35rem;}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);animation:breathe 2.5s ease infinite;}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.5);opacity:.6;}}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+.nav-links a{font-family:var(--sans);font-size:.76rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,244,.65);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--amber);}
+.nav-cta{background:var(--amber)!important;color:var(--ink)!important;padding:.55rem 1.3rem;font-weight:600!important;}
+.nav-cta:hover{background:var(--amber2)!important;}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.ham span{display:block;width:22px;height:1.5px;background:var(--warm);transition:.3s;}
 
-/* ── SECTION DEFAULTS ── */
-section{padding:6rem 5%;}
-.section-label{
-  font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;
-  color:var(--taupe);margin-bottom:1rem;display:block;
-}
-.section-title{
-  font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:500;
-  color:var(--charcoal);line-height:1.15;margin-bottom:1rem;
-}
-.section-title em{font-style:italic;color:var(--mocha);}
-.section-sub{font-size:1rem;color:var(--mocha);line-height:1.8;max-width:540px;}
+/* HERO — asymmetric split */
+.hero{min-height:100vh;background:var(--ink);display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden;}
+.hero-bg-shape{position:absolute;right:0;top:0;bottom:0;width:45%;background:var(--slate);clip-path:polygon(8% 0,100% 0,100% 100%,0 100%);}
+.hero-glow{position:absolute;bottom:-150px;left:-100px;width:550px;height:550px;background:radial-gradient(circle,rgba(245,166,35,.15) 0%,transparent 65%);pointer-events:none;}
+.hero-left{padding:10rem 4% 6rem 6%;position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.7rem;font-size:.7rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:2.2rem;opacity:0;animation:fromLeft .9s ease .2s forwards;}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--amber);}
+.hero-h1{font-family:var(--syne);font-size:clamp(3.2rem,6vw,6rem);font-weight:800;line-height:.94;letter-spacing:-.04em;color:var(--warm);margin-bottom:2rem;opacity:0;animation:fromLeft .9s ease .4s forwards;}
+.hero-h1 .amber{color:var(--amber);}
+.hero-h1 .outline{-webkit-text-stroke:1.5px rgba(250,248,244,.6);color:transparent;}
+.hero-p{font-size:1.02rem;font-weight:300;color:rgba(250,248,244,.55);line-height:1.78;max-width:430px;margin-bottom:2.8rem;opacity:0;animation:fromLeft .9s ease .6s forwards;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fromLeft .9s ease .8s forwards;}
+.btn-a{background:var(--amber);color:var(--ink);padding:.95rem 2.4rem;font-family:var(--syne);font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .3s,transform .3s;}
+.btn-a:hover{background:var(--rust);transform:translateY(-2px);}
+.btn-b{background:transparent;color:rgba(250,248,244,.7);border:1.5px solid rgba(250,248,244,.2);padding:.95rem 2.4rem;font-family:var(--syne);font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .3s;}
+.btn-b:hover{border-color:var(--amber);color:var(--amber);}
+.hero-right{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:8rem 6% 6rem 3%;}
+.hero-stats{display:flex;flex-direction:column;gap:3rem;}
+.stat{opacity:0;animation:fromRight .8s ease forwards;}
+.stat:nth-child(1){animation-delay:.7s;}.stat:nth-child(2){animation-delay:.9s;}.stat:nth-child(3){animation-delay:1.1s;}
+.stat-n{font-family:var(--syne);font-size:4.2rem;font-weight:800;color:var(--amber);line-height:1;letter-spacing:-.05em;}
+.stat-l{font-size:.72rem;color:rgba(250,248,244,.4);letter-spacing:.14em;text-transform:uppercase;margin-top:.25rem;}
+.stat-hr{width:36px;height:1.5px;background:rgba(245,166,35,.3);margin-top:.9rem;}
+.scroll-hint{position:absolute;bottom:2.5rem;left:6%;display:flex;align-items:center;gap:.7rem;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,248,244,.3);opacity:0;animation:fadeUp .8s ease 1.3s forwards;}
+.scroll-hint::before{content:'';width:36px;height:1px;background:rgba(250,248,244,.2);}
 
-/* ── SERVICES ── */
-.services{background:var(--oat);}
-.services-header{text-align:center;margin-bottom:4rem;}
-.services-header .section-sub{margin:0 auto;}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1100px;margin:0 auto;}
-.service-block{
-  background:var(--milk);padding:3rem 2.5rem;
-  transition:all .4s;position:relative;overflow:hidden;cursor:pointer;
-}
-.service-block::before{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
-  background:var(--mocha);transform:scaleX(0);transform-origin:left;
-  transition:transform .4s ease;
-}
-.service-block:hover{background:var(--charcoal);transform:translateY(-4px);}
-.service-block:hover::before{transform:scaleX(1);}
-.service-block:hover .service-icon{color:var(--oat);}
-.service-block:hover .service-name{color:var(--milk);}
-.service-block:hover .service-desc{color:var(--taupe);}
-.service-icon{font-size:2rem;margin-bottom:1.5rem;color:var(--mocha);transition:color .4s;display:block;}
-.service-name{font-family:var(--serif);font-size:1.35rem;font-weight:500;color:var(--charcoal);margin-bottom:.8rem;transition:color .4s;}
-.service-desc{font-size:.88rem;color:var(--mocha);line-height:1.78;transition:color .4s;}
+@keyframes fromLeft{from{opacity:0;transform:translateX(-32px);}to{opacity:1;transform:translateX(0);}}
+@keyframes fromRight{from{opacity:0;transform:translateX(28px);}to{opacity:1;transform:translateX(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 
-/* ── PORTFOLIO ── */
-.portfolio{background:var(--milk);}
-.portfolio-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3.5rem;flex-wrap:wrap;gap:1rem;}
-.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;}
-.portfolio-card{position:relative;overflow:hidden;cursor:pointer;}
-.portfolio-img{
-  width:100%;aspect-ratio:4/3;
-  background:var(--oat);display:flex;align-items:center;justify-content:center;
-  transition:transform .5s;position:relative;overflow:hidden;
-}
-.portfolio-img::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 40%,rgba(35,35,35,.7));
-  opacity:0;transition:opacity .4s;
-}
-.portfolio-card:hover .portfolio-img::after{opacity:1;}
-.portfolio-card:hover .portfolio-img{transform:scale(1.03);}
-.portfolio-placeholder{
-  font-family:var(--serif);font-size:1.1rem;font-style:italic;
-  color:var(--taupe);text-align:center;padding:2rem;z-index:1;
-}
-.portfolio-info{padding:1.2rem 0 .5rem;}
-.portfolio-type{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--taupe);margin-bottom:.4rem;}
-.portfolio-name{font-family:var(--serif);font-size:1.15rem;color:var(--charcoal);margin-bottom:.6rem;}
-.portfolio-desc{font-size:.84rem;color:var(--mocha);line-height:1.7;margin-bottom:1rem;}
-.btn-text{
-  color:var(--charcoal);text-decoration:none;font-size:.72rem;
-  letter-spacing:.15em;text-transform:uppercase;
-  border-bottom:1px solid var(--oat);padding-bottom:2px;
-  transition:all .3s;display:inline-block;
-}
-.btn-text:hover{border-color:var(--charcoal);}
+/* TICKER */
+.ticker{background:var(--amber);padding:.75rem 0;overflow:hidden;white-space:nowrap;}
+.ticker-track{display:inline-flex;gap:3.5rem;animation:tick 22s linear infinite;}
+.ticker-track span{font-family:var(--syne);font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);}
+.ticker-track .sep{color:var(--rust);font-size:1rem;}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
-/* ── PRICING ── */
-.pricing{background:var(--oat);}
-.pricing-header{text-align:center;margin-bottom:3.5rem;}
-.pricing-header .section-sub{margin:0 auto;}
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1000px;margin:0 auto 3rem;}
-.pricing-card{background:var(--milk);padding:2.2rem 2rem;border:1px solid transparent;transition:all .35s;}
-.pricing-card:hover{border-color:var(--oat);transform:translateY(-4px);box-shadow:0 20px 40px rgba(35,35,35,.06);}
-.pricing-card.highlight{background:var(--charcoal);}
-.pricing-card-label{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--taupe);margin-bottom:1rem;}
-.pricing-card.highlight .pricing-card-label{color:var(--taupe);}
-.pricing-card-price{font-family:var(--serif);font-size:2.2rem;font-weight:400;color:var(--charcoal);line-height:1.1;margin-bottom:.4rem;}
-.pricing-card.highlight .pricing-card-price{color:var(--milk);}
-.pricing-card-note{font-size:.78rem;color:var(--taupe);margin-bottom:1.4rem;font-style:italic;}
-.pricing-card.highlight .pricing-card-note{color:rgba(163,147,130,.7);}
-.pricing-card-features{list-style:none;font-size:.84rem;color:var(--mocha);line-height:2;}
-.pricing-card.highlight .pricing-card-features{color:var(--taupe);}
-.pricing-card-features li::before{content:'·';margin-right:.6rem;color:var(--taupe);}
-.pricing-custom{
-  background:var(--milk);border:1px solid var(--oat);
-  padding:2.5rem;text-align:center;max-width:1000px;margin:0 auto;
-}
-.pricing-custom p{font-family:var(--serif);font-size:1.2rem;font-style:italic;color:var(--mocha);margin-bottom:1.2rem;}
-.pricing-custom span{font-size:.84rem;color:var(--taupe);}
+/* TRUST */
+.trust{background:var(--slate);padding:2.2rem 5%;display:flex;align-items:center;justify-content:center;gap:3.5rem;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:.6rem;font-size:.78rem;color:rgba(250,248,244,.5);}
+.trust-item svg{width:16px;height:16px;color:var(--sage);flex-shrink:0;}
 
-/* ── ADVANCED ── */
-.advanced{background:var(--milk);}
-.advanced-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1100px;}
-.advanced-text .section-sub{margin-bottom:2rem;}
-.advanced-list{list-style:none;display:flex;flex-direction:column;gap:1.2rem;}
-.advanced-list li{
-  display:flex;gap:1rem;align-items:flex-start;
-  padding-bottom:1.2rem;border-bottom:1px solid var(--oat);
-}
-.advanced-list li:last-child{border-bottom:none;}
-.adv-num{font-family:var(--serif);font-size:1.8rem;color:var(--oat);font-weight:500;line-height:1;flex-shrink:0;width:2rem;}
-.adv-content h4{font-family:var(--serif);font-size:1.05rem;color:var(--charcoal);margin-bottom:.3rem;}
-.adv-content p{font-size:.84rem;color:var(--mocha);line-height:1.7;}
-.advanced-visual{
-  background:var(--oat);aspect-ratio:4/5;display:flex;
-  align-items:center;justify-content:center;
-}
-.visual-text{font-family:var(--serif);font-size:1.4rem;font-style:italic;color:var(--taupe);text-align:center;padding:2rem;}
+/* SECTION UTILITIES */
+.kicker{font-family:var(--syne);font-size:.7rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;}
+.kicker::before{content:'';width:22px;height:2px;background:var(--amber);}
+.h2{font-family:var(--syne);font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:.9rem;}
+.h2 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--rust);}
+.sub{font-size:.95rem;color:var(--muted);line-height:1.78;max-width:460px;}
 
-/* ── MAINTENANCE ── */
-.maintenance{background:var(--charcoal);color:var(--milk);}
-.maintenance-inner{max-width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
-.maintenance .section-label{color:var(--taupe);}
-.maintenance .section-title{color:var(--milk);}
-.maintenance .section-title em{color:var(--oat);}
-.maintenance .section-sub{color:rgba(251,247,244,.65);}
-.maint-cards{display:flex;flex-direction:column;gap:1.2rem;}
-.maint-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:1.5rem 1.8rem;transition:all .35s;}
-.maint-card:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.15);}
-.maint-card h4{font-family:var(--serif);font-size:1rem;color:var(--milk);margin-bottom:.4rem;}
-.maint-card p{font-size:.82rem;color:var(--taupe);line-height:1.7;}
+/* SERVICES */
+.services{background:var(--warm);padding:8rem 5%;}
+.svc-intro{margin-bottom:3.5rem;}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--light);}
+.svc{background:var(--warm);padding:3rem 2.6rem;position:relative;border-right:1.5px solid var(--light);border-bottom:1.5px solid var(--light);transition:background .4s,transform .3s;overflow:hidden;}
+.svc:nth-child(3n){border-right:none;}
+.svc:nth-child(4),.svc:nth-child(5),.svc:nth-child(6){border-bottom:none;}
+.svc-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber);transform:scaleY(0);transform-origin:bottom;transition:transform .4s;}
+.svc:hover .svc-bar{transform:scaleY(1);}
+.svc:hover{background:var(--ink);}
+.svc:hover .svc-n,.svc:hover .svc-h,.svc:hover .svc-p,.svc:hover .svc-price{color:rgba(250,248,244,.9);}.svc:hover .svc-p{color:rgba(250,248,244,.45);}
+.svc:hover .svc-price{color:var(--amber);}
+.svc-n{font-family:var(--syne);font-size:5rem;font-weight:800;color:rgba(13,13,13,.05);line-height:1;margin-bottom:.6rem;letter-spacing:-.05em;transition:color .4s;}
+.svc-h{font-family:var(--syne);font-size:1.18rem;font-weight:700;color:var(--ink);margin-bottom:.7rem;letter-spacing:-.01em;transition:color .4s;}
+.svc-p{font-size:.85rem;color:var(--muted);line-height:1.73;transition:color .4s;}
+.svc-price{display:block;margin-top:1.3rem;font-family:var(--syne);font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);transition:color .4s;}
 
-/* ── DOWNLOADS ── */
-.downloads{background:var(--oat);}
-.downloads-header{text-align:center;margin-bottom:3rem;}
-.downloads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:900px;margin:0 auto;}
-.dl-card{
-  background:var(--milk);border:1px solid transparent;
-  padding:2rem 1.8rem;display:flex;flex-direction:column;gap:1rem;
-  transition:all .35s;text-decoration:none;cursor:pointer;
-}
-.dl-card:hover{border-color:var(--taupe);transform:translateY(-3px);box-shadow:0 16px 36px rgba(35,35,35,.07);}
-.dl-icon{
-  width:44px;height:44px;background:var(--oat);
-  display:flex;align-items:center;justify-content:center;
-}
-.dl-icon svg{width:20px;height:20px;}
-.dl-type{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--taupe);}
-.dl-name{font-family:var(--serif);font-size:1.05rem;color:var(--charcoal);}
-.dl-desc{font-size:.78rem;color:var(--mocha);line-height:1.6;flex:1;}
-.dl-arrow{font-size:.8rem;color:var(--taupe);letter-spacing:.1em;transition:all .3s;}
-.dl-card:hover .dl-arrow{color:var(--charcoal);letter-spacing:.2em;}
+/* PORTFOLIO */
+.portfolio{background:var(--slate);padding:8rem 5%;}
+.portfolio .h2{color:var(--warm);}
+.portfolio .sub{color:rgba(250,248,244,.45);}
+.proj-grid{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:300px 260px;gap:3px;margin-top:3.5rem;}
+.proj{position:relative;overflow:hidden;background:var(--mid);display:flex;flex-direction:column;justify-content:flex-end;padding:2rem 2.2rem;transition:transform .3s;}
+.proj:nth-child(1){grid-row:span 2;}
+.proj:hover{transform:scale(1.005);}
+.proj-frame{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.proj-frame iframe{width:200%;height:200%;transform:scale(.5);transform-origin:top left;border:none;filter:brightness(.5) saturate(.7);}
+.proj:hover .proj-frame iframe{filter:brightness(.35) saturate(.5);}
+.proj-meta{position:relative;z-index:2;transform:translateY(6px);transition:transform .4s;}
+.proj:hover .proj-meta{transform:translateY(0);}
+.proj-type{font-size:.62rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:.4rem;}
+.proj-name{font-family:var(--syne);font-size:1.5rem;font-weight:800;color:var(--warm);line-height:1.1;letter-spacing:-.02em;margin-bottom:.4rem;}
+.proj:nth-child(2) .proj-name,.proj:nth-child(3) .proj-name{font-size:1.15rem;}
+.proj-desc{font-size:.8rem;color:rgba(250,248,244,.55);line-height:1.6;margin-bottom:.9rem;}
+.proj-a{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--syne);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(245,166,35,.35);padding-bottom:2px;transition:all .3s;}
+.proj-a:hover{color:var(--warm);border-color:rgba(250,248,244,.4);}
+.proj-a svg{width:13px;height:13px;transition:transform .3s;}
+.proj-a:hover svg{transform:translate(3px,-3px);}
 
-/* ── CONTACT ── */
-.contact{background:var(--milk);}
-.contact-inner{display:grid;grid-template-columns:1fr 1.3fr;gap:5rem;align-items:start;max-width:1100px;}
-.contact-info{padding-top:.5rem;}
-.contact-detail{margin-top:2.5rem;display:flex;flex-direction:column;gap:1.5rem;}
-.contact-item-label{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--taupe);margin-bottom:.3rem;}
-.contact-item-val{font-family:var(--serif);font-size:1rem;color:var(--charcoal);}
-.contact-item-sub{font-size:.78rem;color:var(--taupe);font-style:italic;}
-.contact-form{display:flex;flex-direction:column;gap:1rem;}
-.form-group label{display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);margin-bottom:.4rem;}
-.form-input{
-  width:100%;background:var(--milk);border:1px solid var(--oat);
-  padding:.9rem 1.1rem;font-family:var(--body);font-size:.9rem;
-  color:var(--charcoal);outline:none;transition:border-color .3s;
-}
-.form-input:focus{border-color:var(--mocha);}
-.form-input::placeholder{color:var(--taupe);}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-select.form-input{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23A39382' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
-textarea.form-input{height:120px;resize:none;}
-.form-submit{
-  background:var(--charcoal);color:var(--milk);border:none;
-  padding:1rem;font-family:var(--body);font-size:.78rem;
-  letter-spacing:.25em;text-transform:uppercase;cursor:pointer;transition:all .35s;
-  width:100%;margin-top:.5rem;
-}
-.form-submit:hover{background:var(--mocha);}
-.field-error{display:block;font-size:.72rem;color:#c0392b;margin-top:.3rem;font-style:italic;min-height:.9rem;}
-.form-status{padding:.9rem 1.1rem;font-size:.85rem;border-radius:2px;margin-bottom:.5rem;}
-.form-status.error{background:#fdf0f0;color:#c0392b;border:1px solid #f5c6c6;}
-.form-status.success{background:#f0faf4;color:#1e7a3e;border:1px solid #b7e0c6;}
+/* PRICING */
+.pricing{background:var(--warm);padding:8rem 5%;}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--light);margin-top:3rem;}
+.pc{background:var(--warm);padding:2.6rem 2.2rem;position:relative;transition:background .4s;}
+.pc.hot{background:var(--ink);}
+.pc:not(.hot):hover{background:var(--ink);}
+.pc:not(.hot):hover .pc-tag,.pc:not(.hot):hover .pc-from,.pc:not(.hot):hover .pc-body{color:rgba(250,248,244,.45);}
+.pc:not(.hot):hover .pc-amt{color:var(--amber);}
+.pc:not(.hot):hover .pc-name{color:var(--warm);}
+.pc:not(.hot):hover .pc-dot{background:rgba(107,143,113,.4);}
+.pc-badge{position:absolute;top:1.2rem;right:1.2rem;background:var(--amber);color:var(--ink);font-family:var(--syne);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.22rem .65rem;}
+.pc-tag{font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem;transition:color .4s;}
+.hot .pc-tag{color:var(--amber);}
+.pc-amt{font-family:var(--syne);font-size:3.2rem;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.04em;margin-bottom:.25rem;transition:color .4s;}
+.hot .pc-amt{color:var(--amber);}
+.pc-from{font-size:.72rem;color:var(--muted);margin-bottom:1.2rem;transition:color .4s;}
+.hot .pc-from{color:rgba(250,248,244,.35);}
+.pc-name{font-family:var(--syne);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;letter-spacing:-.01em;transition:color .4s;}
+.hot .pc-name{color:var(--warm);}
+.pc-body{font-size:.82rem;color:var(--muted);line-height:1.68;transition:color .4s;}
+.hot .pc-body{color:rgba(250,248,244,.42);}
+.pc-list{list-style:none;margin-top:1.2rem;display:flex;flex-direction:column;gap:.45rem;}
+.pc-list li{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.55rem;}
+.hot .pc-list li{color:rgba(250,248,244,.4);}
+.pc-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);flex-shrink:0;transition:background .4s;}
+.price-custom{background:var(--ink);padding:2.5rem 3rem;margin-top:2px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.price-custom h3{font-family:var(--syne);font-size:1.4rem;font-weight:800;color:var(--warm);letter-spacing:-.02em;margin-bottom:.35rem;}
+.price-custom p{font-size:.85rem;color:rgba(250,248,244,.45);max-width:460px;line-height:1.6;}
 
-/* ── FOOTER ── */
-footer{
-  background:var(--charcoal);color:var(--milk);
-  padding:3rem 5%;display:flex;align-items:center;
-  justify-content:space-between;flex-wrap:wrap;gap:1.5rem;
-  border-top:1px solid rgba(255,255,255,.06);
-}
-.footer-brand{font-family:var(--serif);font-size:1.1rem;color:var(--milk);}
-.footer-brand span{color:var(--taupe);}
-.footer-links{display:flex;gap:2rem;flex-wrap:wrap;}
-.footer-links a{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--taupe);text-decoration:none;transition:color .3s;}
-.footer-links a:hover{color:var(--milk);}
-.footer-copy{font-size:.68rem;color:rgba(163,147,130,.5);}
+/* WHY */
+.why{background:var(--slate);padding:8rem 5%;}
+.why-wrap{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center;max-width:1100px;margin:0 auto;}
+.why .h2{color:var(--warm);}
+.why .sub{color:rgba(250,248,244,.45);}
+.why-points{display:flex;flex-direction:column;gap:1.8rem;}
+.why-pt{display:flex;gap:1.4rem;align-items:flex-start;padding-bottom:1.8rem;border-bottom:1px solid rgba(250,248,244,.06);}
+.why-pt:last-child{border-bottom:none;padding-bottom:0;}
+.why-ic{width:42px;height:42px;flex-shrink:0;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.18);display:flex;align-items:center;justify-content:center;font-family:var(--syne);font-size:.85rem;font-weight:800;color:var(--amber);}
+.why-pt h4{font-family:var(--syne);font-size:.95rem;font-weight:700;color:var(--warm);margin-bottom:.35rem;}
+.why-pt p{font-size:.83rem;color:rgba(250,248,244,.45);line-height:1.7;}
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
+/* PROCESS */
+.process{background:var(--warm);padding:8rem 5%;}
+.process-wrap{max-width:1100px;margin:0 auto;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;margin-top:4rem;position:relative;}
+.steps::before{content:'';position:absolute;top:26px;left:5%;right:5%;height:1px;background:linear-gradient(90deg,var(--amber),var(--rust),var(--amber));z-index:0;}
+.step{position:relative;z-index:1;text-align:center;}
+.step-circle{width:52px;height:52px;border-radius:50%;background:var(--ink);border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--syne);font-size:.9rem;font-weight:800;color:var(--amber);margin:0 auto 1.4rem;}
+.step-h{font-family:var(--syne);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.45rem;}
+.step-p{font-size:.78rem;color:var(--muted);line-height:1.65;}
 
-/* ── MOBILE ── */
-@media(max-width:900px){
-  .services-grid{grid-template-columns:1fr;}
-  .portfolio-grid{grid-template-columns:1fr 1fr;}
-  .advanced-inner,.maintenance-inner,.contact-inner{grid-template-columns:1fr;gap:3rem;}
-  .downloads-grid{grid-template-columns:1fr 1fr;}
-  .advanced-visual{display:none;}
+/* CONTACT */
+.contact{background:var(--ink);padding:8rem 5%;position:relative;overflow:hidden;}
+.contact::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(245,166,35,.07) 0%,transparent 55%);pointer-events:none;}
+.contact-wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:6rem;align-items:start;max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.contact .kicker{color:var(--amber);}
+.contact .h2{color:var(--warm);}
+.contact-info{margin-top:2.5rem;display:flex;flex-direction:column;gap:1.8rem;}
+.ci-label{font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:.3rem;}
+.ci-val{font-family:var(--syne);font-size:1rem;font-weight:600;color:var(--warm);}
+.ci-sub{font-size:.76rem;color:var(--muted);margin-top:.18rem;font-style:italic;}
+
+/* FORMSPREE FORM */
+.cform{display:flex;flex-direction:column;gap:.85rem;}
+.fg{display:flex;flex-direction:column;gap:.3rem;}
+.fl{font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.fi{background:rgba(250,248,244,.05);border:1px solid rgba(250,248,244,.1);padding:.88rem 1.05rem;font-family:var(--sans);font-size:.9rem;color:var(--warm);outline:none;transition:border-color .3s,background .3s;width:100%;}
+.fi:focus{border-color:var(--amber);background:rgba(245,166,35,.04);}
+.fi::placeholder{color:rgba(250,248,244,.22);}
+select.fi{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F5A623' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
+select.fi option{background:#1C1F26;color:var(--warm);}
+textarea.fi{height:125px;resize:none;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;}
+.ferr{font-size:.7rem;color:#F5634A;font-style:italic;min-height:.85rem;}
+.fsub{background:var(--amber);color:var(--ink);border:none;padding:1.05rem;font-family:var(--syne);font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .3s;width:100%;margin-top:.3rem;}
+.fsub:hover{background:var(--rust);}
+.fsub:disabled{opacity:.6;cursor:not-allowed;}
+.fnote{font-size:.7rem;color:var(--muted);text-align:center;font-style:italic;}
+#api-err{display:none;padding:.85rem 1rem;background:rgba(240,80,50,.08);border:1px solid rgba(240,80,50,.25);font-size:.8rem;color:#F5634A;margin-bottom:.5rem;}
+#fsuccess{display:none;text-align:center;padding:3rem 2rem;border:1px solid rgba(245,166,35,.2);}
+#fsuccess h3{font-family:var(--syne);font-size:1.5rem;font-weight:800;color:var(--amber);margin-bottom:.6rem;}
+#fsuccess p{font-size:.88rem;color:rgba(250,248,244,.55);line-height:1.7;}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(250,248,244,.06);padding:2.4rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.fl-logo{font-family:var(--syne);font-size:1.1rem;font-weight:800;color:var(--warm);display:flex;align-items:center;gap:.35rem;}
+.fl-links{display:flex;gap:2rem;flex-wrap:wrap;}
+.fl-links a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.fl-links a:hover{color:var(--amber);}
+.fl-copy{font-size:.66rem;color:rgba(138,141,150,.38);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+.rvl{opacity:0;transform:translateX(-26px);transition:opacity .7s ease,transform .7s ease;}
+.rvr{opacity:0;transform:translateX(26px);transition:opacity .7s ease,transform .7s ease;}
+.rv.on,.rvl.on,.rvr.on{opacity:1;transform:translate(0);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;}.hero-bg-shape{display:none;}
+  .hero-right{padding:0 6% 5rem;}.hero-stats{flex-direction:row;flex-wrap:wrap;gap:2rem;}
+  .proj-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}.proj:nth-child(1){grid-row:auto;}
+  .why-wrap{grid-template-columns:1fr;gap:3.5rem;}
+  .steps{grid-template-columns:1fr 1fr;}.steps::before{display:none;}
+  .contact-wrap{grid-template-columns:1fr;}
 }
-@media(max-width:640px){
+@media(max-width:768px){
   nav{padding:1rem 5%;}
-  .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--milk);padding:2rem 5%;border-bottom:1px solid var(--oat);gap:1.5rem;}
-  .nav-links.open{display:flex;}
-  .hamburger{display:flex;}
-  .portfolio-grid{grid-template-columns:1fr;}
-  .downloads-grid{grid-template-columns:1fr;}
-  .form-row{grid-template-columns:1fr;}
-  .hero-title{font-size:2.6rem;}
+  .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(13,13,13,.98);padding:2rem 5%;gap:1.5rem;border-bottom:1px solid rgba(245,166,35,.12);}
+  .nav-links.open{display:flex;}.ham{display:flex;}
+  .svc-grid{grid-template-columns:1fr;}
+  .svc:nth-child(n){border-right:none;}.svc:last-child{border-bottom:none;}
+  .price-grid{grid-template-columns:1fr;}
+  .proj-grid{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr;}
+  .fr{grid-template-columns:1fr;}
   footer{flex-direction:column;text-align:center;}
+  .price-custom{flex-direction:column;text-align:center;}
+  .hero-stats{flex-direction:column;gap:1.5rem;}
 }
 </style>
 </head>
 <body>
 
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="cur-ring"></div>
+
 <!-- NAV -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">Velora<span>.</span></a>
+<nav id="nav">
+  <a href="#" class="nav-logo">Velora<span class="logo-dot"></span></a>
   <ul class="nav-links" id="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#portfolio">Work</a></li>
     <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#process">Process</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
   </ul>
-  <div class="hamburger" onclick="toggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="ham" onclick="toggleNav()"><span></span><span></span><span></span></div>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-content">
-    <p class="hero-eyebrow">Design Studio · South Africa</p>
-    <h1 class="hero-title">
-      Websites that<br><em>work as hard</em><br>as you do.
+  <div class="hero-bg-shape"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-left">
+    <p class="hero-eyebrow">South Africa's Premium Digital Studio</p>
+    <h1 class="hero-h1">
+      We build<br>
+      <span class="amber">websites</span><br>
+      <span class="outline">that sell.</span>
     </h1>
-    <p class="hero-sub">We build premium digital experiences that attract clients, grow your brand, and convert visitors into loyal customers.</p>
+    <p class="hero-p">Premium design built for conversion. We turn browsers into buyers and startups into brands — fast, beautiful, and built to grow.</p>
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary">Get a Free Quote</a>
-      <a href="#portfolio" class="btn-secondary">View Our Work</a>
+      <a href="#contact" class="btn-a">Start My Project →</a>
+      <a href="#portfolio" class="btn-b">See Our Work</a>
     </div>
   </div>
-  <p class="hero-scroll">Scroll to explore</p>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">48<small style="font-size:1.8rem">hr</small></div><div class="stat-l">Average first draft</div><div class="stat-hr"></div></div>
+      <div class="stat"><div class="stat-n">R300<small style="font-size:1.6rem">+</small></div><div class="stat-l">Starting from</div><div class="stat-hr"></div></div>
+      <div class="stat"><div class="stat-n">100<small style="font-size:1.8rem">%</small></div><div class="stat-l">Custom — never templates</div><div class="stat-hr"></div></div>
+    </div>
+  </div>
+  <p class="scroll-hint">Scroll to explore</p>
 </section>
 
-<!-- SERVICES -->
-<section class="services reveal" id="services">
-  <div class="services-header reveal">
-    <span class="section-label">What We Do</span>
-    <h2 class="section-title">Built for your <em>growth</em></h2>
-    <p class="section-sub">Every service is designed with one purpose: to help your business attract more of the right clients.</p>
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Web Design</span><span class="sep">✦</span><span>Branding</span><span class="sep">✦</span><span>E-Commerce</span><span class="sep">✦</span><span>Logo Design</span><span class="sep">✦</span><span>Landing Pages</span><span class="sep">✦</span><span>Site Management</span><span class="sep">✦</span><span>Flyer Design</span><span class="sep">✦</span>
+    <span>Web Design</span><span class="sep">✦</span><span>Branding</span><span class="sep">✦</span><span>E-Commerce</span><span class="sep">✦</span><span>Logo Design</span><span class="sep">✦</span><span>Landing Pages</span><span class="sep">✦</span><span>Site Management</span><span class="sep">✦</span><span>Flyer Design</span><span class="sep">✦</span>
   </div>
-  <div class="services-grid">
-    <div class="service-block">
-      <span class="service-icon">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <rect x="2" y="5" width="28" height="20" rx="2"/><line x1="2" y1="11" x2="30" y2="11"/><circle cx="6.5" cy="8" r="1"/><circle cx="10" cy="8" r="1"/><circle cx="13.5" cy="8" r="1"/>
-        </svg>
-      </span>
-      <h3 class="service-name">Web Design &amp; Development</h3>
-      <p class="service-desc">Custom websites built to convert. Stunning on every screen, fast on every device, and designed to turn visitors into paying clients. No templates — ever.</p>
-    </div>
-    <div class="service-block">
-      <span class="service-icon">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <circle cx="16" cy="16" r="6"/><path d="M16 2v4M16 26v4M2 16h4M26 16h4M6.34 6.34l2.83 2.83M22.83 22.83l2.83 2.83M6.34 25.66l2.83-2.83M22.83 9.17l2.83-2.83"/>
-        </svg>
-      </span>
-      <h3 class="service-name">Branding &amp; Logo Design</h3>
-      <p class="service-desc">A brand that makes people stop scrolling. We craft identities that feel premium, memorable, and true to who you are — logos, colour systems, and everything in between.</p>
-    </div>
-    <div class="service-block">
-      <span class="service-icon">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <path d="M4 20v6h6l14-14-6-6L4 20z"/><path d="M22 6l4 4"/>
-        </svg>
-      </span>
-      <h3 class="service-name">Website Management &amp; Maintenance</h3>
-      <p class="service-desc">Your website, always up to date. We handle monthly updates, content changes, and technical upkeep so you can focus on running your business.</p>
-    </div>
+</div>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Free consultation</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Written quotes, no surprises</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Mobile-first always</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>100% custom design</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>WhatsApp support</div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="svc-intro rv">
+    <div class="kicker">What we do</div>
+    <h2 class="h2">Every tool your business<br>needs <em>online.</em></h2>
+    <p class="sub">From your first logo to a full e-commerce store — we design, build, and manage your entire digital presence.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">01</div><h3 class="svc-h">Web Design &amp; Development</h3><p class="svc-p">Fully custom websites built for conversion. Fast, beautiful, mobile-first, and designed around your specific customer. No page builders, no templates — ever.</p><span class="svc-price">Custom Quote</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">02</div><h3 class="svc-h">Branding &amp; Logo Design</h3><p class="svc-p">Identities that stop the scroll. We build logos, colour systems, and brand guidelines that make you instantly recognisable and trusted by your ideal client.</p><span class="svc-price">From R300</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">03</div><h3 class="svc-h">Landing Pages</h3><p class="svc-p">Single, high-converting pages built to capture leads, sell products, or launch services. Delivered in 5–7 business days, ready to drive results from day one.</p><span class="svc-price">R700 – R1,800</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">04</div><h3 class="svc-h">E-Commerce Stores</h3><p class="svc-p">Online stores that look premium and sell effortlessly. Payment integration, product management, and a checkout experience your customers will trust.</p><span class="svc-price">Custom Quote</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">05</div><h3 class="svc-h">Flyer &amp; Print Design</h3><p class="svc-p">High-impact digital and print-ready graphics. Flyers, posters, menus, social media kits — branded and delivered fast with a 48-hour turnaround option.</p><span class="svc-price">R150 – R500</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">06</div><h3 class="svc-h">Website Management</h3><p class="svc-p">Your website updated, secured, and optimised monthly — without you lifting a finger. Focus on your business. We handle your digital presence completely.</p><span class="svc-price">Monthly Retainer</span></div>
   </div>
 </section>
 
 <!-- PORTFOLIO -->
-<section class="portfolio reveal" id="portfolio">
-  <div class="portfolio-header reveal">
-    <div>
-      <span class="section-label">Our Work</span>
-      <h2 class="section-title">Recent <em>projects</em></h2>
-    </div>
-    <a href="#contact" class="btn-text">Start your project →</a>
+<section class="portfolio" id="portfolio">
+  <div class="rv">
+    <div class="kicker">Our work</div>
+    <h2 class="h2">Real sites.<br><em>Real results.</em></h2>
+    <p class="sub">Three live websites we designed and built — each custom-made to convert.</p>
   </div>
-  <div class="portfolio-grid">
-    <div class="portfolio-card reveal">
-      <div class="portfolio-img">
-        <div class="portfolio-placeholder">Website Project<br><em>Full Design &amp; Build</em></div>
-      </div>
-      <div class="portfolio-info">
-        <div class="portfolio-type">Web Design</div>
-        <h3 class="portfolio-name">Luxury Spa &amp; Wellness</h3>
-        <p class="portfolio-desc">A premium booking website for a high-end day spa, designed to convert visitors into appointments.</p>
-        <a href="https://lapofluxury.netlify.app/" class="btn-text">View Project</a>
+  <div class="proj-grid">
+    <div class="proj rvl">
+      <div class="proj-frame"><iframe src="https://prestigehomeconcierge.netlify.app/" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
+      <div class="proj-meta">
+        <div class="proj-type">Luxury Cleaning · Home Concierge</div>
+        <h3 class="proj-name">Prestige Home Concierge</h3>
+        <p class="proj-desc">Premium dark-luxury brand site with service pages, pricing guide, and WhatsApp booking flow.</p>
+        <a href="https://prestigehomeconcierge.netlify.app/" target="_blank" rel="noopener" class="proj-a">Visit Live Site <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
       </div>
     </div>
-    <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:var(--charcoal);">
-        <div class="portfolio-placeholder" style="color:rgba(163,147,130,.6)">Landing Page<br><em>High-Convert Design</em></div>
-      </div>
-      <div class="portfolio-info">
-        <div class="portfolio-type">Web Development</div>
-        <h3 class="portfolio-name">Portfolio landing page</h3>
-        <p class="portfolio-desc">A results-driven landing page for a web developer, built to capture leads and drive client.</p>
-        <a href="https://portolioyanda.netlify.app/" class="btn-text">View Project</a>
+    <div class="proj rvr">
+      <div class="proj-frame"><iframe src="https://lapofluxury.netlify.app/" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
+      <div class="proj-meta">
+        <div class="proj-type">Spa &amp; Wellness · Pretoria</div>
+        <h3 class="proj-name">Lap of Luxury Spa</h3>
+        <p class="proj-desc">Earthy, immersive wellness sanctuary with full treatment listings and booking experience.</p>
+        <a href="https://lapofluxury.netlify.app/" target="_blank" rel="noopener" class="proj-a">Visit Live Site <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
       </div>
     </div>
-    <div class="portfolio-card reveal">
-      <div class="portfolio-img" style="background:var(--mocha);">
-        <div class="portfolio-placeholder" style="color:rgba(251,247,244,.5)">Brand Identity<br><em>Full System</em></div>
-      </div>
-      <div class="portfolio-info">
-        <div class="portfolio-type">Web Development</div>
-        <h3 class="portfolio-name">Cleaning company</h3>
-        <p class="portfolio-desc">A complete brand identity redesign, logo, palette, and typography system that elevated a local bakery into a premium brand.</p>
-        <a href="https://prestigehomeconcierge.netlify.app/" class="btn-text">View Project</a>
+    <div class="proj rvr">
+      <div class="proj-frame"><iframe src="https://portolioyanda.netlify.app/" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
+      <div class="proj-meta">
+        <div class="proj-type">Developer Portfolio · Creative</div>
+        <h3 class="proj-name">Developer Portfolio</h3>
+        <p class="proj-desc">Bold personality-driven portfolio site built to land clients and make a lasting impression.</p>
+        <a href="https://portolioyanda.netlify.app/" target="_blank" rel="noopener" class="proj-a">Visit Live Site <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section class="pricing reveal" id="pricing">
-  <div class="pricing-header reveal">
-    <span class="section-label">Investment</span>
-    <h2 class="section-title">Transparent <em>pricing</em></h2>
-    <p class="section-sub">Honest, upfront pricing for our most common services. Complex projects receive a custom quote.</p>
+<section class="pricing" id="pricing">
+  <div class="rv">
+    <div class="kicker">Investment</div>
+    <h2 class="h2">Honest pricing.<br><em>Exceptional value.</em></h2>
+    <p class="sub">Transparent rates for our most popular services. Complex projects get a free custom written quote.</p>
   </div>
-  <div class="pricing-grid">
-    <div class="pricing-card reveal">
-      <div class="pricing-card-label">Logo Design</div>
-      <div class="pricing-card-price">R300</div>
-      <div class="pricing-card-note">Starting from — up to R900</div>
-      <ul class="pricing-card-features">
-        <li>Custom concept</li>
-        <li>2 revisions included</li>
-        <li>Final files (PNG, SVG)</li>
-        <li>Brand colour guidance</li>
-      </ul>
+  <div class="price-grid">
+    <div class="pc rv">
+      <div class="pc-tag">Logo Design</div>
+      <div class="pc-amt">R300</div>
+      <div class="pc-from">Starting — up to R900</div>
+      <div class="pc-name">Brand Identity</div>
+      <p class="pc-body">Custom concept, all file formats, 2 revisions, and brand colour guidance.</p>
+      <ul class="pc-list"><li><span class="pc-dot"></span>PNG, SVG &amp; PDF files</li><li><span class="pc-dot"></span>2 revisions included</li><li><span class="pc-dot"></span>Colour palette guide</li></ul>
     </div>
-    <div class="pricing-card reveal">
-      <div class="pricing-card-label">Flyers &amp; Print</div>
-      <div class="pricing-card-price">R150</div>
-      <div class="pricing-card-note">Starting from — up to R500</div>
-      <ul class="pricing-card-features">
-        <li>Digital &amp; print-ready</li>
-        <li>Brand-consistent design</li>
-        <li>Fast 48hr turnaround</li>
-        <li>2 revisions included</li>
-      </ul>
+    <div class="pc hot rv">
+      <div class="pc-badge">Most Popular</div>
+      <div class="pc-tag">Landing Pages</div>
+      <div class="pc-amt">R700</div>
+      <div class="pc-from">Starting — up to R1,800</div>
+      <div class="pc-name">High-Converting Page</div>
+      <p class="pc-body">Mobile-first, SEO-structured page delivered in 5–7 business days.</p>
+      <ul class="pc-list"><li><span class="pc-dot"></span>Custom design</li><li><span class="pc-dot"></span>Contact form included</li><li><span class="pc-dot"></span>SEO foundation</li></ul>
     </div>
-    <div class="pricing-card highlight reveal">
-      <div class="pricing-card-label">Landing Pages</div>
-      <div class="pricing-card-price" style="color:var(--oat)">R700</div>
-      <div class="pricing-card-note">Starting from — up to R1,800</div>
-      <ul class="pricing-card-features">
-        <li>Mobile-first design</li>
-        <li>Conversion-optimised</li>
-        <li>Contact form included</li>
-        <li>Delivered in 5–7 days</li>
-      </ul>
+    <div class="pc rv">
+      <div class="pc-tag">Flyer &amp; Print</div>
+      <div class="pc-amt">R150</div>
+      <div class="pc-from">Starting — up to R500</div>
+      <div class="pc-name">Print &amp; Digital Design</div>
+      <p class="pc-body">Brand-consistent flyers, posters, social kits — print-ready and fast.</p>
+      <ul class="pc-list"><li><span class="pc-dot"></span>Digital + print-ready</li><li><span class="pc-dot"></span>2 revisions included</li><li><span class="pc-dot"></span>48-hour option</li></ul>
     </div>
   </div>
-  <div class="pricing-custom reveal">
-    <p>Full Websites · E-Commerce · Branding Systems · Website Management</p>
-    <span>These services are tailored to each client's unique needs. Reach out for a free, no-obligation quote.</span>
-    <br><br>
-    <a href="#contact" class="btn-primary">Request a Custom Quote</a>
+  <div class="price-custom rv">
+    <div>
+      <h3>Full websites · E-commerce · Branding systems</h3>
+      <p>These are scoped individually. Tell us about your project and we'll send a detailed quote within 24 hours. No obligation, no pressure.</p>
+    </div>
+    <a href="#contact" class="btn-a">Get a Custom Quote →</a>
   </div>
 </section>
 
-<!-- ADVANCED SERVICES -->
-<section class="advanced reveal" id="advanced">
-  <div class="advanced-inner" style="margin:0 auto;">
-    <div class="advanced-text reveal">
-      <span class="section-label">Full-Scale Services</span>
-      <h2 class="section-title">Beyond the <em>basics</em></h2>
-      <p class="section-sub" style="margin-bottom:2.5rem">When your business is ready to invest in a complete digital presence, we're ready to build it.</p>
-      <ul class="advanced-list">
-        <li>
-          <span class="adv-num">01</span>
-          <div class="adv-content">
-            <h4>Full Website Builds</h4>
-            <p>Multi-page websites with custom design, SEO structure, performance optimisation, and everything your business needs online.</p>
-          </div>
-        </li>
-        <li>
-          <span class="adv-num">02</span>
-          <div class="adv-content">
-            <h4>E-Commerce Solutions</h4>
-            <p>Online stores that look beautiful and sell effectively. Product listings, payment integration, and seamless checkout experiences.</p>
-          </div>
-        </li>
-        <li>
-          <span class="adv-num">03</span>
-          <div class="adv-content">
-            <h4>Branding Systems</h4>
-            <p>Complete brand identities — logo, typography, colour palette, brand guidelines, and all collateral you need to show up consistently.</p>
-          </div>
-        </li>
-      </ul>
-      <br>
-      <a href="#contact" class="btn-primary" style="margin-top:1rem">Build My Brand</a>
+<!-- WHY -->
+<section class="why" id="why">
+  <div class="why-wrap">
+    <div class="rvl">
+      <div class="kicker">Why us</div>
+      <h2 class="h2">We're not an agency.<br>We're your <em>digital partner.</em></h2>
+      <p class="sub" style="margin-bottom:2.2rem">We work with a small number of clients at a time so every project gets the focus it deserves.</p>
+      <a href="#contact" class="btn-a">Let's talk →</a>
     </div>
-    <div class="advanced-visual">
-      <p class="visual-text">Your vision,<br>brought to life<br>with intention.</p>
+    <div class="why-points rvr">
+      <div class="why-pt"><div class="why-ic">01</div><div><h4>Results-obsessed design</h4><p>Every layout decision and colour choice is made with one goal — getting your visitor to take action.</p></div></div>
+      <div class="why-pt"><div class="why-ic">02</div><div><h4>You talk directly to the designer</h4><p>No account managers, no middlemen. WhatsApp us directly and we respond fast.</p></div></div>
+      <div class="why-pt"><div class="why-ic">03</div><div><h4>Transparent pricing, written quotes</h4><p>You'll always know exactly what you're paying and what you're getting before we start.</p></div></div>
+      <div class="why-pt"><div class="why-ic">04</div><div><h4>We build for the long term</h4><p>From your first logo to ongoing management — we grow with your business as a trusted partner.</p></div></div>
     </div>
   </div>
 </section>
 
-<!-- MAINTENANCE -->
-<section class="maintenance reveal" id="maintenance">
-  <div class="maintenance-inner" style="margin:0 auto;">
-    <div class="reveal">
-      <span class="section-label">Ongoing Care</span>
-      <h2 class="section-title">Focus on your business.<br><em>We handle your website.</em></h2>
-      <p class="section-sub" style="margin-top:1rem;margin-bottom:2rem">Your website isn't a set-and-forget asset. It needs care, updates, and attention. That's what we're here for.</p>
-      <a href="#contact" class="btn-primary">Ask About Maintenance</a>
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-wrap">
+    <div class="rv">
+      <div class="kicker">How it works</div>
+      <h2 class="h2">From idea to live<br><em>in days — not months.</em></h2>
     </div>
-    <div class="maint-cards reveal">
-      <div class="maint-card">
-        <h4>Monthly Content Updates</h4>
-        <p>New photos, copy changes, new pages — we handle everything so your site always reflects your business accurately.</p>
-      </div>
-      <div class="maint-card">
-        <h4>Technical Upkeep</h4>
-        <p>Plugins, security, performance, backups. We keep your site running fast, safe, and free of technical headaches.</p>
-      </div>
-      <div class="maint-card">
-        <h4>Optional Inquiry Handling</h4>
-        <p>We can monitor and manage your contact form submissions, keeping you organised and ensuring no lead slips through the cracks.</p>
-      </div>
+    <div class="steps">
+      <div class="step rv"><div class="step-circle">01</div><h4 class="step-h">You reach out</h4><p class="step-p">Fill in our form or WhatsApp us. Tell us what you need and we respond within 4 hours.</p></div>
+      <div class="step rv"><div class="step-circle">02</div><h4 class="step-h">Free consultation</h4><p class="step-p">A quick WhatsApp chat to understand your goals, budget, and vision.</p></div>
+      <div class="step rv"><div class="step-circle">03</div><h4 class="step-h">Written quote</h4><p class="step-p">You receive a detailed written quote with scope, timeline, and price. Zero obligation.</p></div>
+      <div class="step rv"><div class="step-circle">04</div><h4 class="step-h">Design &amp; deliver</h4><p class="step-p">We build, you review, we refine. Then your new digital presence goes live.</p></div>
     </div>
-  </div>
-</section>
-
-<!-- DOWNLOADS -->
-<section class="downloads reveal" id="downloads">
-  <div class="downloads-header reveal">
-    <span class="section-label">Resources</span>
-    <h2 class="section-title">Download our <em>materials</em></h2>
-  </div>
-  <div class="downloads-grid">
-    <a href="Velora_Pricing_Pamphlet.pdf" download class="dl-card reveal">
-      <div class="dl-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#A39382" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/>
-          <line x1="12" y1="18" x2="12" y2="12"/><polyline points="9,15 12,18 15,15"/>
-        </svg>
-      </div>
-      <div class="dl-type">PDF Download</div>
-      <div class="dl-name">Pricing Pamphlet</div>
-      <p class="dl-desc">Full pricing breakdown, service details, and what to expect when working with Velora Studios.</p>
-      <span class="dl-arrow">Download →</span>
-    </a>
-    <a href="Velora_Service_Flyer.pdf" download class="dl-card reveal">
-      <div class="dl-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#A39382" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/>
-          <line x1="12" y1="18" x2="12" y2="12"/><polyline points="9,15 12,18 15,15"/>
-        </svg>
-      </div>
-      <div class="dl-type">PDF Download</div>
-      <div class="dl-name">Service Flyer</div>
-      <p class="dl-desc">A concise, high-impact overview of what Velora Studios offers. Perfect for sharing or printing.</p>
-      <span class="dl-arrow">Download →</span>
-    </a>
-    <a href="Velora_Brand_Guide.pdf" download class="dl-card reveal">
-      <div class="dl-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#A39382" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/>
-          <circle cx="12" cy="14" r="3"/>
-        </svg>
-      </div>
-      <div class="dl-type">PDF Download</div>
-      <div class="dl-name">Brand Style Guide</div>
-      <p class="dl-desc">Our visual identity standards — colours, typography, tone of voice, and logo direction.</p>
-      <span class="dl-arrow">Download →</span>
-    </a>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="contact reveal" id="contact">
-  <div class="contact-inner" style="margin:0 auto;">
-    <div class="contact-info reveal">
-      <span class="section-label">Get in Touch</span>
-      <h2 class="section-title">Let's build<br>something <em>great.</em></h2>
-      <p class="section-sub">Tell us about your project. We respond within 24 hours and offer a free first consultation.</p>
-      <div class="contact-detail">
-        <div>
-          <div class="contact-item-label">WhatsApp</div>
-          <div class="contact-item-val">068 268 5622</div>
-          <div class="contact-item-sub">Text or WhatsApp — we respond fast</div>
-        </div>
-        <div>
-          <div class="contact-item-label">Email</div>
-          <div class="contact-item-val">veloraastudios@gmail.com</div>
-        </div>
-        <div>
-          <div class="contact-item-label">Based In</div>
-          <div class="contact-item-val">South Africa</div>
-          <div class="contact-item-sub">Serving clients locally &amp; remotely</div>
-        </div>
+<section class="contact" id="contact">
+  <div class="contact-wrap">
+    <div class="rvl">
+      <div class="kicker">Get in touch</div>
+      <h2 class="h2" style="font-size:clamp(2rem,4vw,3.2rem)">Ready to build<br>something <em>great?</em></h2>
+      <p style="font-size:.9rem;color:rgba(250,248,244,.45);line-height:1.78;margin-top:1rem">We respond within 24 hours and your first consultation is always free.</p>
+      <div class="contact-info">
+        <div><div class="ci-label">WhatsApp</div><div class="ci-val">068 268 5622</div><div class="ci-sub">Text or WhatsApp — we respond fast</div></div>
+        <div><div class="ci-label">Email</div><div class="ci-val">veloraastudios@gmail.com</div></div>
+        <div><div class="ci-label">Based in</div><div class="ci-val">South Africa</div><div class="ci-sub">Serving clients locally &amp; remotely</div></div>
       </div>
     </div>
-    <!-- Real <form> element — EmailJS reads name="" attributes directly -->
-    <form
-      id="enquiry-form"
-      class="contact-form reveal"
-      novalidate
-      onsubmit="handleSubmit(event)"
-    >
-      <div class="form-group">
-        <label for="f-name">Your Name *</label>
-        <input
-          id="f-name"
-          name="from_name"
-          class="form-input"
-          type="text"
-          placeholder="First and last name"
-          autocomplete="name"
-        >
-        <span class="field-error" id="err-name"></span>
-      </div>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="f-biz">Business Name</label>
-          <input
-            id="f-biz"
-            name="business_name"
-            class="form-input"
-            type="text"
-            placeholder="Your business"
-            autocomplete="organization"
-          >
+    <div class="rvr">
+      <!--
+        ╔══════════════════════════════════════════════╗
+        ║  FORMSPREE SETUP — 2 minutes, totally free   ║
+        ║  1. Go to https://formspree.io               ║
+        ║  2. Sign up → New Form                       ║
+        ║  3. Set destination: veloraastudios@gmail.com║
+        ║  4. Copy your Form ID (e.g. xrgbkzaw)        ║
+        ║  5. Replace YOUR_FORM_ID in the action below ║
+        ║  Done — submissions land in your Gmail inbox ║
+        ╚══════════════════════════════════════════════╝
+      -->
+      <form
+        id="cform"
+        class="cform"
+        action="https://formspree.io/f/YOUR_FORM_ID"
+        method="POST"
+        novalidate
+        onsubmit="submitForm(event)"
+      >
+        <div class="fr">
+          <div class="fg">
+            <label class="fl" for="fn">Your Name *</label>
+            <input id="fn" name="name" class="fi" type="text" placeholder="Full name" autocomplete="name">
+            <span class="ferr" id="en"></span>
+          </div>
+          <div class="fg">
+            <label class="fl" for="fb">Business Name</label>
+            <input id="fb" name="business" class="fi" type="text" placeholder="Your business" autocomplete="organization">
+          </div>
         </div>
-        <div class="form-group">
-          <label for="f-email">Email Address *</label>
-          <input
-            id="f-email"
-            name="reply_to"
-            class="form-input"
-            type="email"
-            placeholder="you@example.com"
-            autocomplete="email"
-          >
-          <span class="field-error" id="err-email"></span>
+        <div class="fg">
+          <label class="fl" for="fe">Email Address *</label>
+          <input id="fe" name="email" class="fi" type="email" placeholder="you@example.com" autocomplete="email">
+          <span class="ferr" id="ee"></span>
         </div>
+        <div class="fg">
+          <label class="fl" for="fs">Service Needed *</label>
+          <select id="fs" name="service" class="fi">
+            <option value="">Select a service…</option>
+            <option value="Web Design & Development">Web Design &amp; Development</option>
+            <option value="Branding & Logo Design">Branding &amp; Logo Design</option>
+            <option value="Landing Page">Landing Page</option>
+            <option value="E-Commerce Website">E-Commerce Website</option>
+            <option value="Website Management">Website Management</option>
+            <option value="Flyer Design">Flyer Design</option>
+            <option value="Other / Not Sure">Other / Not Sure</option>
+          </select>
+          <span class="ferr" id="es"></span>
+        </div>
+        <div class="fg">
+          <label class="fl" for="fm">About Your Project *</label>
+          <textarea id="fm" name="message" class="fi" placeholder="Tell us your goals, timeline, budget range, or anything else useful…"></textarea>
+          <span class="ferr" id="em"></span>
+        </div>
+        <!-- honeypot -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="New Velora Studios enquiry">
+        <div id="api-err"></div>
+        <button type="submit" class="fsub" id="sbtn">Send My Enquiry →</button>
+        <p class="fnote">Or WhatsApp <strong style="color:var(--amber)">068 268 5622</strong> directly</p>
+      </form>
+
+      <div id="fsuccess">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(107,143,113,.12);border:1px solid var(--sage);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Enquiry received!</h3>
+        <p>We'll be in touch within 24 hours. Or WhatsApp us now on <strong style="color:var(--amber)">068 268 5622</strong>.</p>
       </div>
-
-      <div class="form-group">
-        <label for="f-service">Service Needed *</label>
-        <select id="f-service" name="service" class="form-input">
-          <option value="">Select a service</option>
-          <option value="Web Design &amp; Development">Web Design &amp; Development</option>
-          <option value="Branding &amp; Logo Design">Branding &amp; Logo Design</option>
-          <option value="Landing Page">Landing Page</option>
-          <option value="E-Commerce Website">E-Commerce Website</option>
-          <option value="Website Management">Website Management</option>
-          <option value="Flyer Design">Flyer Design</option>
-          <option value="Other / Not Sure">Other / Not Sure</option>
-        </select>
-        <span class="field-error" id="err-service"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="f-msg">Tell Us About Your Project *</label>
-        <textarea
-          id="f-msg"
-          name="message"
-          class="form-input"
-          placeholder="Share your goals, timeline, budget range, or anything else…"
-        ></textarea>
-        <span class="field-error" id="err-msg"></span>
-      </div>
-
-      <!-- hidden field so EmailJS knows where to send -->
-      <input type="hidden" name="to_name" value="Velora Studios">
-
-      <div id="form-status" class="form-status" style="display:none"></div>
-
-      <button type="submit" class="form-submit" id="submit-btn">
-        <span id="btn-text">Send My Enquiry</span>
-        <span id="btn-loading" style="display:none">Sending…</span>
-      </button>
-
-      <p style="font-size:.75rem;color:var(--taupe);margin-top:.8rem;font-style:italic;">
-        Or reach us directly:
-        <strong style="color:var(--mocha)">veloraastudios@gmail.com</strong>
-        · WA <strong style="color:var(--mocha)">068 268 5622</strong>
-      </p>
-    </form>
-
-    <!-- Success screen (shown after submission) -->
-    <div id="form-success" style="display:none;text-align:center;padding:3rem 2rem;">
-      <div style="width:56px;height:56px;border-radius:50%;background:var(--oat);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--mocha)" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h3 style="font-family:var(--serif);font-size:1.6rem;color:var(--charcoal);margin-bottom:.6rem">Enquiry sent!</h3>
-      <p style="color:var(--mocha);font-size:.95rem;line-height:1.7;margin-bottom:1.5rem">Thank you — we'll be in touch within 24 hours.</p>
-      <button
-        type="button"
-        onclick="resetForm()"
-        style="background:none;border:1px solid var(--oat);padding:.6rem 1.4rem;font-family:var(--body);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);cursor:pointer;transition:.3s;"
-        onmouseover="this.style.borderColor='var(--mocha)'"
-        onmouseout="this.style.borderColor='var(--oat)'"
-      >Send Another</button>
     </div>
-
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
-  <div class="footer-brand">Velora<span>.</span></div>
-  <nav class="footer-links">
-    <a href="#services">Services</a>
-    <a href="#portfolio">Work</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#contact">Contact</a>
+  <div class="fl-logo">Velora<span class="logo-dot"></span></div>
+  <nav class="fl-links">
+    <a href="#services">Services</a><a href="#portfolio">Work</a>
+    <a href="#pricing">Pricing</a><a href="#process">Process</a><a href="#contact">Contact</a>
   </nav>
-  <div class="footer-copy">© 2024 Velora Studios · veloraastudios@gmail.com</div>
+  <div class="fl-copy">© 2024 Velora Studios · veloraastudios@gmail.com</div>
 </footer>
 
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-/*
-  ═══════════════════════════════════════════════
-  EMAILJS SETUP — 3 steps, takes 5 minutes:
-  1. Go to https://emailjs.com and create a free account
-  2. Add a Gmail service (connect veloraastudios@gmail.com)
-  3. Create an Email Template — use these variables in the template body:
-       From:    {{from_name}}  ({{reply_to}})
-       Biz:     {{business_name}}
-       Service: {{service}}
-       Message: {{message}}
-  4. Paste your IDs into the three constants below and you're live.
-  ═══════════════════════════════════════════════
-*/
-const EJS_PUBLIC_KEY  = 'C7G5nF1IP5HW-9QVG';   // Account → API Keys
-const EJS_SERVICE_ID  = 'service_gbd11rh';   // Email Services tab
-const EJS_TEMPLATE_ID = 'template_l9p71gi';  // Email Templates tab
+/* Cursor */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},90);
+});
+document.querySelectorAll('a,button,.svc,.proj,.pc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px';cur.style.background='var(--rust)';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';cur.style.background='var(--amber)';});
+});
 
-// Init EmailJS
-emailjs.init({ publicKey: EJS_PUBLIC_KEY });
+/* Nav */
+function toggleNav(){document.getElementById('nav-links').classList.toggle('open');}
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>60);});
 
-// ── Validation ──
-function validate() {
-  let valid = true;
+/* Scroll reveal */
+new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');observer.unobserve(e.target);}});
+},{threshold:.1}).observe;
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');}});
+},{threshold:.1});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>observer.observe(el));
 
-  const checks = [
-    {
-      el: document.getElementById('f-name'),
-      err: 'err-name',
-      test: v => v.trim().length > 0,
-      msg: 'Please enter your name.'
-    },
-    {
-      el: document.getElementById('f-email'),
-      err: 'err-email',
-      test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
-      msg: 'Please enter a valid email address.'
-    },
-    {
-      el: document.getElementById('f-service'),
-      err: 'err-service',
-      test: v => v !== '',
-      msg: 'Please select a service.'
-    },
-    {
-      el: document.getElementById('f-msg'),
-      err: 'err-msg',
-      test: v => v.trim().length > 10,
-      msg: 'Please tell us a little more about your project.'
-    },
-  ];
-
-  checks.forEach(({ el, err, test, msg }) => {
-    const errEl = document.getElementById(err);
-    if (!test(el.value)) {
-      errEl.textContent = msg;
-      el.style.borderColor = '#c0392b';
-      valid = false;
-    } else {
-      errEl.textContent = '';
-      el.style.borderColor = '';
-    }
+/* Form — Formspree */
+function validate(){
+  let ok=true;
+  [{id:'fn',err:'en',test:v=>v.trim().length>1,msg:'Please enter your name.'},
+   {id:'fe',err:'ee',test:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),msg:'Please enter a valid email.'},
+   {id:'fs',err:'es',test:v=>v!=='',msg:'Please select a service.'},
+   {id:'fm',err:'em',test:v=>v.trim().length>8,msg:'Tell us a bit about your project.'},
+  ].forEach(({id,err,test,msg})=>{
+    const el=document.getElementById(id),er=document.getElementById(err);
+    if(!test(el.value)){er.textContent=msg;el.style.borderColor='#F5634A';ok=false;}
+    else{er.textContent='';el.style.borderColor='';}
   });
-
-  return valid;
+  return ok;
 }
 
-// ── Form submit handler ──
-async function handleSubmit(e) {
-  e.preventDefault(); // stop default browser form submission
-
-  if (!validate()) return;
-
-  const form    = document.getElementById('enquiry-form');
-  const btn     = document.getElementById('submit-btn');
-  const btnText = document.getElementById('btn-text');
-  const btnLoad = document.getElementById('btn-loading');
-  const status  = document.getElementById('form-status');
-
-  // Loading state
-  btn.disabled          = true;
-  btnText.style.display = 'none';
-  btnLoad.style.display = 'inline';
-  status.style.display  = 'none';
-
-  // If keys haven't been filled in yet, fall back to mailto so no enquiry is lost
-if (!EJS_PUBLIC_KEY || !EJS_SERVICE_ID || !EJS_TEMPLATE_ID) {
-  const name    = document.getElementById('f-name').value.trim();
-  const biz     = document.getElementById('f-biz').value.trim() || 'Not provided';
-  const email   = document.getElementById('f-email').value.trim();
-  const service = document.getElementById('f-service').value;
-  const msg     = document.getElementById('f-msg').value.trim();
-
-  const body = encodeURIComponent(
-    `Name: ${name}\nBusiness: ${biz}\nEmail: ${email}\nService: ${service}\n\n${msg}`
-  );
-
-  window.location.href =
-    `mailto:veloraastudios@gmail.com?subject=New Enquiry – ${name}&body=${body}`;
-
-  showSuccess();
-  return;
-}
-
-// Send to YOU (lead notification)
-await emailjs.sendForm(EJS_SERVICE_ID, EJS_TEMPLATE_ID, form);
-
-// Send auto-reply to CLIENT
-await emailjs.sendForm(EJS_SERVICE_ID, 'template_uy9t5bb', form);
-
-showSuccess();
-  } catch (err) {
-    console.error('EmailJS FULL ERROR:', err);
-    alert(JSON.stringify(err));
-    status.style.display  = 'block';
-    status.className      = 'form-status error';
-    status.textContent    = 'Something went wrong. Please email us directly at veloraastudios@gmail.com or WhatsApp 068 268 5622.';
-    btn.disabled          = false;
-    btnText.style.display = 'inline';
-    btnLoad.style.display = 'none';
+async function submitForm(e){
+  e.preventDefault();
+  if(!validate())return;
+  const form=document.getElementById('cform'),btn=document.getElementById('sbtn'),apiErr=document.getElementById('api-err');
+  btn.disabled=true;btn.textContent='Sending…';apiErr.style.display='none';
+  try{
+    const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
+    if(res.ok){form.style.display='none';document.getElementById('fsuccess').style.display='block';}
+    else{throw new Error('failed');}
+  }catch{
+    apiErr.style.display='block';apiErr.style.cssText='display:block;padding:.85rem 1rem;background:rgba(240,80,50,.08);border:1px solid rgba(240,80,50,.25);font-size:.8rem;color:#F5634A;margin-bottom:.5rem;';
+    apiErr.textContent='Something went wrong. Email us at veloraastudios@gmail.com or WhatsApp 068 268 5622.';
+    btn.disabled=false;btn.textContent='Send My Enquiry →';
   }
 }
-
-function showSuccess() {
-  document.getElementById('enquiry-form').style.display  = 'none';
-  document.getElementById('form-success').style.display  = 'block';
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velora Studios — We Build Websites That Sell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/*
+  COLOUR PSYCHOLOGY:
+  Amber #F5A623  — energy, urgency, action. Highest CTR colour for creative agency CTAs.
+  Ink   #0D0D0D  — authority, premium, trust. Dark backgrounds increase perceived value.
+  Rust  #C0440F  — confidence, bold action. Used for hover states to deepen urgency.
+  Sage  #6B8F71  — growth, reliability. Used for trust signals and checkmarks.
+  Warm  #FAF8F4  — calm readability. Warm white reads as premium, not clinical.
+*/
+:root{
+  --ink:#0D0D0D;--amber:#F5A623;--amber2:#E8950F;--rust:#C0440F;
+  --warm:#FAF8F4;--sage:#6B8F71;--slate:#1C1F26;--mid:#2A2D35;
+  --muted:#8A8D96;--light:#E8E5DF;--border:rgba(250,248,244,.09);
+  --syne:'Syne',sans-serif;--serif:'DM Serif Display',serif;--sans:'DM Sans',sans-serif;
 }
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--warm);color:var(--ink);overflow-x:hidden;cursor:none;}
 
-function resetForm() {
-  const form = document.getElementById('enquiry-form');
-  form.reset();
-  ['err-name','err-email','err-service','err-msg'].forEach(id => {
-    document.getElementById(id).textContent = '';
-  });
-  ['f-name','f-email','f-service','f-msg'].forEach(id => {
-    document.getElementById(id).style.borderColor = '';
-  });
-  document.getElementById('btn-text').style.display  = 'inline';
-  document.getElementById('btn-loading').style.display = 'none';
-  document.getElementById('submit-btn').disabled      = false;
-  document.getElementById('form-status').style.display = 'none';
-  form.style.display                = 'block';
-  document.getElementById('form-success').style.display = 'none';
+/* CURSOR */
+.cur{position:fixed;width:10px;height:10px;background:var(--amber);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;}
+.cur-ring{position:fixed;width:34px;height:34px;border:1.5px solid rgba(245,166,35,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .15s ease;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.3rem 5%;transition:background .4s,backdrop-filter .4s;}
+nav.scrolled{background:rgba(13,13,13,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(245,166,35,.12);}
+.nav-logo{font-family:var(--syne);font-size:1.35rem;font-weight:800;color:var(--warm);text-decoration:none;letter-spacing:-.02em;display:flex;align-items:center;gap:.35rem;}
+.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);animation:breathe 2.5s ease infinite;}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.5);opacity:.6;}}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+.nav-links a{font-family:var(--sans);font-size:.76rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:rgba(250,248,244,.65);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--amber);}
+.nav-cta{background:var(--amber)!important;color:var(--ink)!important;padding:.55rem 1.3rem;font-weight:600!important;}
+.nav-cta:hover{background:var(--amber2)!important;}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.ham span{display:block;width:22px;height:1.5px;background:var(--warm);transition:.3s;}
+
+/* HERO — asymmetric split */
+.hero{min-height:100vh;background:var(--ink);display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden;}
+.hero-bg-shape{position:absolute;right:0;top:0;bottom:0;width:45%;background:var(--slate);clip-path:polygon(8% 0,100% 0,100% 100%,0 100%);}
+.hero-glow{position:absolute;bottom:-150px;left:-100px;width:550px;height:550px;background:radial-gradient(circle,rgba(245,166,35,.15) 0%,transparent 65%);pointer-events:none;}
+.hero-left{padding:10rem 4% 6rem 6%;position:relative;z-index:2;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.7rem;font-size:.7rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:2.2rem;opacity:0;animation:fromLeft .9s ease .2s forwards;}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--amber);}
+.hero-h1{font-family:var(--syne);font-size:clamp(3.2rem,6vw,6rem);font-weight:800;line-height:.94;letter-spacing:-.04em;color:var(--warm);margin-bottom:2rem;opacity:0;animation:fromLeft .9s ease .4s forwards;}
+.hero-h1 .amber{color:var(--amber);}
+.hero-h1 .outline{-webkit-text-stroke:1.5px rgba(250,248,244,.6);color:transparent;}
+.hero-p{font-size:1.02rem;font-weight:300;color:rgba(250,248,244,.55);line-height:1.78;max-width:430px;margin-bottom:2.8rem;opacity:0;animation:fromLeft .9s ease .6s forwards;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fromLeft .9s ease .8s forwards;}
+.btn-a{background:var(--amber);color:var(--ink);padding:.95rem 2.4rem;font-family:var(--syne);font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .3s,transform .3s;}
+.btn-a:hover{background:var(--rust);transform:translateY(-2px);}
+.btn-b{background:transparent;color:rgba(250,248,244,.7);border:1.5px solid rgba(250,248,244,.2);padding:.95rem 2.4rem;font-family:var(--syne);font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .3s;}
+.btn-b:hover{border-color:var(--amber);color:var(--amber);}
+.hero-right{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:8rem 6% 6rem 3%;}
+.hero-stats{display:flex;flex-direction:column;gap:3rem;}
+.stat{opacity:0;animation:fromRight .8s ease forwards;}
+.stat:nth-child(1){animation-delay:.7s;}.stat:nth-child(2){animation-delay:.9s;}.stat:nth-child(3){animation-delay:1.1s;}
+.stat-n{font-family:var(--syne);font-size:4.2rem;font-weight:800;color:var(--amber);line-height:1;letter-spacing:-.05em;}
+.stat-l{font-size:.72rem;color:rgba(250,248,244,.4);letter-spacing:.14em;text-transform:uppercase;margin-top:.25rem;}
+.stat-hr{width:36px;height:1.5px;background:rgba(245,166,35,.3);margin-top:.9rem;}
+.scroll-hint{position:absolute;bottom:2.5rem;left:6%;display:flex;align-items:center;gap:.7rem;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,248,244,.3);opacity:0;animation:fadeUp .8s ease 1.3s forwards;}
+.scroll-hint::before{content:'';width:36px;height:1px;background:rgba(250,248,244,.2);}
+
+@keyframes fromLeft{from{opacity:0;transform:translateX(-32px);}to{opacity:1;transform:translateX(0);}}
+@keyframes fromRight{from{opacity:0;transform:translateX(28px);}to{opacity:1;transform:translateX(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* TICKER */
+.ticker{background:var(--amber);padding:.75rem 0;overflow:hidden;white-space:nowrap;}
+.ticker-track{display:inline-flex;gap:3.5rem;animation:tick 22s linear infinite;}
+.ticker-track span{font-family:var(--syne);font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);}
+.ticker-track .sep{color:var(--rust);font-size:1rem;}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* TRUST */
+.trust{background:var(--slate);padding:2.2rem 5%;display:flex;align-items:center;justify-content:center;gap:3.5rem;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:.6rem;font-size:.78rem;color:rgba(250,248,244,.5);}
+.trust-item svg{width:16px;height:16px;color:var(--sage);flex-shrink:0;}
+
+/* SECTION UTILITIES */
+.kicker{font-family:var(--syne);font-size:.7rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;}
+.kicker::before{content:'';width:22px;height:2px;background:var(--amber);}
+.h2{font-family:var(--syne);font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:.9rem;}
+.h2 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--rust);}
+.sub{font-size:.95rem;color:var(--muted);line-height:1.78;max-width:460px;}
+
+/* SERVICES */
+.services{background:var(--warm);padding:8rem 5%;}
+.svc-intro{margin-bottom:3.5rem;}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--light);}
+.svc{background:var(--warm);padding:3rem 2.6rem;position:relative;border-right:1.5px solid var(--light);border-bottom:1.5px solid var(--light);transition:background .4s,transform .3s;overflow:hidden;}
+.svc:nth-child(3n){border-right:none;}
+.svc:nth-child(4),.svc:nth-child(5),.svc:nth-child(6){border-bottom:none;}
+.svc-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber);transform:scaleY(0);transform-origin:bottom;transition:transform .4s;}
+.svc:hover .svc-bar{transform:scaleY(1);}
+.svc:hover{background:var(--ink);}
+.svc:hover .svc-n,.svc:hover .svc-h,.svc:hover .svc-p,.svc:hover .svc-price{color:rgba(250,248,244,.9);}.svc:hover .svc-p{color:rgba(250,248,244,.45);}
+.svc:hover .svc-price{color:var(--amber);}
+.svc-n{font-family:var(--syne);font-size:5rem;font-weight:800;color:rgba(13,13,13,.05);line-height:1;margin-bottom:.6rem;letter-spacing:-.05em;transition:color .4s;}
+.svc-h{font-family:var(--syne);font-size:1.18rem;font-weight:700;color:var(--ink);margin-bottom:.7rem;letter-spacing:-.01em;transition:color .4s;}
+.svc-p{font-size:.85rem;color:var(--muted);line-height:1.73;transition:color .4s;}
+.svc-price{display:block;margin-top:1.3rem;font-family:var(--syne);font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);transition:color .4s;}
+
+/* PORTFOLIO */
+.portfolio{background:var(--slate);padding:8rem 5%;}
+.portfolio .h2{color:var(--warm);}
+.portfolio .sub{color:rgba(250,248,244,.45);}
+.proj-grid{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:300px 260px;gap:3px;margin-top:3.5rem;}
+.proj{position:relative;overflow:hidden;background:var(--mid);display:flex;flex-direction:column;justify-content:flex-end;padding:2rem 2.2rem;transition:transform .3s;}
+.proj:nth-child(1){grid-row:span 2;}
+.proj:hover{transform:scale(1.005);}
+.proj-frame{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.proj-frame iframe{width:200%;height:200%;transform:scale(.5);transform-origin:top left;border:none;filter:brightness(.5) saturate(.7);}
+.proj:hover .proj-frame iframe{filter:brightness(.35) saturate(.5);}
+.proj-meta{position:relative;z-index:2;transform:translateY(6px);transition:transform .4s;}
+.proj:hover .proj-meta{transform:translateY(0);}
+.proj-type{font-size:.62rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:.4rem;}
+.proj-name{font-family:var(--syne);font-size:1.5rem;font-weight:800;color:var(--warm);line-height:1.1;letter-spacing:-.02em;margin-bottom:.4rem;}
+.proj:nth-child(2) .proj-name,.proj:nth-child(3) .proj-name{font-size:1.15rem;}
+.proj-desc{font-size:.8rem;color:rgba(250,248,244,.55);line-height:1.6;margin-bottom:.9rem;}
+.proj-a{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--syne);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(245,166,35,.35);padding-bottom:2px;transition:all .3s;}
+.proj-a:hover{color:var(--warm);border-color:rgba(250,248,244,.4);}
+.proj-a svg{width:13px;height:13px;transition:transform .3s;}
+.proj-a:hover svg{transform:translate(3px,-3px);}
+
+/* PRICING */
+.pricing{background:var(--warm);padding:8rem 5%;}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--light);margin-top:3rem;}
+.pc{background:var(--warm);padding:2.6rem 2.2rem;position:relative;transition:background .4s;}
+.pc.hot{background:var(--ink);}
+.pc:not(.hot):hover{background:var(--ink);}
+.pc:not(.hot):hover .pc-tag,.pc:not(.hot):hover .pc-from,.pc:not(.hot):hover .pc-body{color:rgba(250,248,244,.45);}
+.pc:not(.hot):hover .pc-amt{color:var(--amber);}
+.pc:not(.hot):hover .pc-name{color:var(--warm);}
+.pc:not(.hot):hover .pc-dot{background:rgba(107,143,113,.4);}
+.pc-badge{position:absolute;top:1.2rem;right:1.2rem;background:var(--amber);color:var(--ink);font-family:var(--syne);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.22rem .65rem;}
+.pc-tag{font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem;transition:color .4s;}
+.hot .pc-tag{color:var(--amber);}
+.pc-amt{font-family:var(--syne);font-size:3.2rem;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.04em;margin-bottom:.25rem;transition:color .4s;}
+.hot .pc-amt{color:var(--amber);}
+.pc-from{font-size:.72rem;color:var(--muted);margin-bottom:1.2rem;transition:color .4s;}
+.hot .pc-from{color:rgba(250,248,244,.35);}
+.pc-name{font-family:var(--syne);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.4rem;letter-spacing:-.01em;transition:color .4s;}
+.hot .pc-name{color:var(--warm);}
+.pc-body{font-size:.82rem;color:var(--muted);line-height:1.68;transition:color .4s;}
+.hot .pc-body{color:rgba(250,248,244,.42);}
+.pc-list{list-style:none;margin-top:1.2rem;display:flex;flex-direction:column;gap:.45rem;}
+.pc-list li{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.55rem;}
+.hot .pc-list li{color:rgba(250,248,244,.4);}
+.pc-dot{width:6px;height:6px;border-radius:50%;background:var(--sage);flex-shrink:0;transition:background .4s;}
+.price-custom{background:var(--ink);padding:2.5rem 3rem;margin-top:2px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.price-custom h3{font-family:var(--syne);font-size:1.4rem;font-weight:800;color:var(--warm);letter-spacing:-.02em;margin-bottom:.35rem;}
+.price-custom p{font-size:.85rem;color:rgba(250,248,244,.45);max-width:460px;line-height:1.6;}
+
+/* WHY */
+.why{background:var(--slate);padding:8rem 5%;}
+.why-wrap{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center;max-width:1100px;margin:0 auto;}
+.why .h2{color:var(--warm);}
+.why .sub{color:rgba(250,248,244,.45);}
+.why-points{display:flex;flex-direction:column;gap:1.8rem;}
+.why-pt{display:flex;gap:1.4rem;align-items:flex-start;padding-bottom:1.8rem;border-bottom:1px solid rgba(250,248,244,.06);}
+.why-pt:last-child{border-bottom:none;padding-bottom:0;}
+.why-ic{width:42px;height:42px;flex-shrink:0;background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.18);display:flex;align-items:center;justify-content:center;font-family:var(--syne);font-size:.85rem;font-weight:800;color:var(--amber);}
+.why-pt h4{font-family:var(--syne);font-size:.95rem;font-weight:700;color:var(--warm);margin-bottom:.35rem;}
+.why-pt p{font-size:.83rem;color:rgba(250,248,244,.45);line-height:1.7;}
+
+/* PROCESS */
+.process{background:var(--warm);padding:8rem 5%;}
+.process-wrap{max-width:1100px;margin:0 auto;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:3rem;margin-top:4rem;position:relative;}
+.steps::before{content:'';position:absolute;top:26px;left:5%;right:5%;height:1px;background:linear-gradient(90deg,var(--amber),var(--rust),var(--amber));z-index:0;}
+.step{position:relative;z-index:1;text-align:center;}
+.step-circle{width:52px;height:52px;border-radius:50%;background:var(--ink);border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--syne);font-size:.9rem;font-weight:800;color:var(--amber);margin:0 auto 1.4rem;}
+.step-h{font-family:var(--syne);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.45rem;}
+.step-p{font-size:.78rem;color:var(--muted);line-height:1.65;}
+
+/* CONTACT */
+.contact{background:var(--ink);padding:8rem 5%;position:relative;overflow:hidden;}
+.contact::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(245,166,35,.07) 0%,transparent 55%);pointer-events:none;}
+.contact-wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:6rem;align-items:start;max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.contact .kicker{color:var(--amber);}
+.contact .h2{color:var(--warm);}
+.contact-info{margin-top:2.5rem;display:flex;flex-direction:column;gap:1.8rem;}
+.ci-label{font-size:.6rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:.3rem;}
+.ci-val{font-family:var(--syne);font-size:1rem;font-weight:600;color:var(--warm);}
+.ci-sub{font-size:.76rem;color:var(--muted);margin-top:.18rem;font-style:italic;}
+
+/* FORMSPREE FORM */
+.cform{display:flex;flex-direction:column;gap:.85rem;}
+.fg{display:flex;flex-direction:column;gap:.3rem;}
+.fl{font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.fi{background:rgba(250,248,244,.05);border:1px solid rgba(250,248,244,.1);padding:.88rem 1.05rem;font-family:var(--sans);font-size:.9rem;color:var(--warm);outline:none;transition:border-color .3s,background .3s;width:100%;}
+.fi:focus{border-color:var(--amber);background:rgba(245,166,35,.04);}
+.fi::placeholder{color:rgba(250,248,244,.22);}
+select.fi{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F5A623' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;}
+select.fi option{background:#1C1F26;color:var(--warm);}
+textarea.fi{height:125px;resize:none;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;}
+.ferr{font-size:.7rem;color:#F5634A;font-style:italic;min-height:.85rem;}
+.fsub{background:var(--amber);color:var(--ink);border:none;padding:1.05rem;font-family:var(--syne);font-size:.8rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .3s;width:100%;margin-top:.3rem;}
+.fsub:hover{background:var(--rust);}
+.fsub:disabled{opacity:.6;cursor:not-allowed;}
+.fnote{font-size:.7rem;color:var(--muted);text-align:center;font-style:italic;}
+#api-err{display:none;padding:.85rem 1rem;background:rgba(240,80,50,.08);border:1px solid rgba(240,80,50,.25);font-size:.8rem;color:#F5634A;margin-bottom:.5rem;}
+#fsuccess{display:none;text-align:center;padding:3rem 2rem;border:1px solid rgba(245,166,35,.2);}
+#fsuccess h3{font-family:var(--syne);font-size:1.5rem;font-weight:800;color:var(--amber);margin-bottom:.6rem;}
+#fsuccess p{font-size:.88rem;color:rgba(250,248,244,.55);line-height:1.7;}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(250,248,244,.06);padding:2.4rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.fl-logo{font-family:var(--syne);font-size:1.1rem;font-weight:800;color:var(--warm);display:flex;align-items:center;gap:.35rem;}
+.fl-links{display:flex;gap:2rem;flex-wrap:wrap;}
+.fl-links a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.fl-links a:hover{color:var(--amber);}
+.fl-copy{font-size:.66rem;color:rgba(138,141,150,.38);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+.rvl{opacity:0;transform:translateX(-26px);transition:opacity .7s ease,transform .7s ease;}
+.rvr{opacity:0;transform:translateX(26px);transition:opacity .7s ease,transform .7s ease;}
+.rv.on,.rvl.on,.rvr.on{opacity:1;transform:translate(0);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;}.hero-bg-shape{display:none;}
+  .hero-right{padding:0 6% 5rem;}.hero-stats{flex-direction:row;flex-wrap:wrap;gap:2rem;}
+  .proj-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}.proj:nth-child(1){grid-row:auto;}
+  .why-wrap{grid-template-columns:1fr;gap:3.5rem;}
+  .steps{grid-template-columns:1fr 1fr;}.steps::before{display:none;}
+  .contact-wrap{grid-template-columns:1fr;}
 }
-
-// ── Nav mobile toggle ──
-function toggleNav() {
-  document.getElementById('nav-links').classList.toggle('open');
+@media(max-width:768px){
+  nav{padding:1rem 5%;}
+  .nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(13,13,13,.98);padding:2rem 5%;gap:1.5rem;border-bottom:1px solid rgba(245,166,35,.12);}
+  .nav-links.open{display:flex;}.ham{display:flex;}
+  .svc-grid{grid-template-columns:1fr;}
+  .svc:nth-child(n){border-right:none;}.svc:last-child{border-bottom:none;}
+  .price-grid{grid-template-columns:1fr;}
+  .proj-grid{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr;}
+  .fr{grid-template-columns:1fr;}
+  footer{flex-direction:column;text-align:center;}
+  .price-custom{flex-direction:column;text-align:center;}
+  .hero-stats{flex-direction:column;gap:1.5rem;}
 }
+</style>
+</head>
+<body>
 
-// ── Scroll reveal ──
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12 });
-reveals.forEach(r => observer.observe(r));
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="cur-ring"></div>
 
-// ── Nav shadow on scroll ──
-window.addEventListener('scroll', () => {
-  const nav = document.getElementById('navbar');
-  if (nav) nav.style.boxShadow = window.scrollY > 50
-    ? '0 2px 30px rgba(35,35,35,.08)'
-    : '';
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Velora<span class="logo-dot"></span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <div class="ham" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-shape"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-left">
+    <p class="hero-eyebrow">South Africa's Premium Digital Studio</p>
+    <h1 class="hero-h1">
+      We build<br>
+      <span class="amber">websites</span><br>
+      <span class="outline">that sell.</span>
+    </h1>
+    <p class="hero-p">Premium design built for conversion. We turn browsers into buyers and startups into brands — fast, beautiful, and built to grow.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-a">Start My Project →</a>
+      <a href="#portfolio" class="btn-b">See Our Work</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">48<small style="font-size:1.8rem">hr</small></div><div class="stat-l">Average first draft</div><div class="stat-hr"></div></div>
+      <div class="stat"><div class="stat-n">R300<small style="font-size:1.6rem">+</small></div><div class="stat-l">Starting from</div><div class="stat-hr"></div></div>
+      <div class="stat"><div class="stat-n">100<small style="font-size:1.8rem">%</small></div><div class="stat-l">Custom — never templates</div><div class="stat-hr"></div></div>
+    </div>
+  </div>
+  <p class="scroll-hint">Scroll to explore</p>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Web Design</span><span class="sep">✦</span><span>Branding</span><span class="sep">✦</span><span>E-Commerce</span><span class="sep">✦</span><span>Logo Design</span><span class="sep">✦</span><span>Landing Pages</span><span class="sep">✦</span><span>Site Management</span><span class="sep">✦</span><span>Flyer Design</span><span class="sep">✦</span>
+    <span>Web Design</span><span class="sep">✦</span><span>Branding</span><span class="sep">✦</span><span>E-Commerce</span><span class="sep">✦</span><span>Logo Design</span><span class="sep">✦</span><span>Landing Pages</span><span class="sep">✦</span><span>Site Management</span><span class="sep">✦</span><span>Flyer Design</span><span class="sep">✦</span>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Free consultation</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Written quotes, no surprises</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Mobile-first always</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>100% custom design</div>
+  <div class="trust-item"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>WhatsApp support</div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="svc-intro rv">
+    <div class="kicker">What we do</div>
+    <h2 class="h2">Every tool your business<br>needs <em>online.</em></h2>
+    <p class="sub">From your first logo to a full e-commerce store — we design, build, and manage your entire digital presence.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">01</div><h3 class="svc-h">Web Design &amp; Development</h3><p class="svc-p">Fully custom websites built for conversion. Fast, beautiful, mobile-first, and designed around your specific customer. No page builders, no templates — ever.</p><span class="svc-price">Custom Quote</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">02</div><h3 class="svc-h">Branding &amp; Logo Design</h3><p class="svc-p">Identities that stop the scroll. We build logos, colour systems, and brand guidelines that make you instantly recognisable and trusted by your ideal client.</p><span class="svc-price">From R300</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">03</div><h3 class="svc-h">Landing Pages</h3><p class="svc-p">Single, high-converting pages built to capture leads, sell products, or launch services. Delivered in 5–7 business days, ready to drive results from day one.</p><span class="svc-price">R700 – R1,800</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">04</div><h3 class="svc-h">E-Commerce Stores</h3><p class="svc-p">Online stores that look premium and sell effortlessly. Payment integration, product management, and a checkout experience your customers will trust.</p><span class="svc-price">Custom Quote</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">05</div><h3 class="svc-h">Flyer &amp; Print Design</h3><p class="svc-p">High-impact digital and print-ready graphics. Flyers, posters, menus, social media kits — branded and delivered fast with a 48-hour turnaround option.</p><span class="svc-price">R150 – R500</span></div>
+    <div class="svc rv"><div class="svc-bar"></div><div class="svc-n">06</div><h3 class="svc-h">Website Management</h3><p class="svc-p">Your website updated, secured, and optimised monthly — without you lifting a finger. Focus on your business. We handle your digital presence completely.</p><span class="svc-price">Monthly Retainer</span></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="rv">
+    <div class="kicker">Our work</div>
+    <h2 class="h2">Real sites.<br><em>Real results.</em></h2>
+    <p class="sub">Three live websites we designed and built — each custom-made to convert.</p>
+  </div>
+  <div class="proj-grid">
+    <div class="proj rvl">
+      <div class="proj-frame"><iframe src="https://prestigehomeconcierge.netlify.app/" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
+      <div class="proj-meta">
+        <div class="proj-type">Luxury Cleaning · Home Concierge</div>
+        <h3 class="proj-name">Prestige Home Concierge</h3>
+        <p class="proj-desc">Premium dark-luxury brand site with service pages, pricing guide, and WhatsApp booking flow.</p>
+        <a href="https://prestigehomeconcierge.netlify.app/" target="_blank" rel="noopener" class="proj-a">Visit Live Site <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+    </div>
+    <div class="proj rvr">
+      <div class="proj-frame"><iframe src="https://lapofluxury.netlify.app/" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
+      <div class="proj-meta">
+        <div class="proj-type">Spa &amp; Wellness · Pretoria</div>
+        <h3 class="proj-name">Lap of Luxury Spa</h3>
+        <p class="proj-desc">Earthy, immersive wellness sanctuary with full treatment listings and booking experience.</p>
+        <a href="https://lapofluxury.netlify.app/" target="_blank" rel="noopener" class="proj-a">Visit Live Site <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+    </div>
+    <div class="proj rvr">
+      <div class="proj-frame"><iframe src="https://portolioyanda.netlify.app/" loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe></div>
+      <div class="proj-meta">
+        <div class="proj-type">Developer Portfolio · Creative</div>
+        <h3 class="proj-name">Developer Portfolio</h3>
+        <p class="proj-desc">Bold personality-driven portfolio site built to land clients and make a lasting impression.</p>
+        <a href="https://portolioyanda.netlify.app/" target="_blank" rel="noopener" class="proj-a">Visit Live Site <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="rv">
+    <div class="kicker">Investment</div>
+    <h2 class="h2">Honest pricing.<br><em>Exceptional value.</em></h2>
+    <p class="sub">Transparent rates for our most popular services. Complex projects get a free custom written quote.</p>
+  </div>
+  <div class="price-grid">
+    <div class="pc rv">
+      <div class="pc-tag">Logo Design</div>
+      <div class="pc-amt">R300</div>
+      <div class="pc-from">Starting — up to R900</div>
+      <div class="pc-name">Brand Identity</div>
+      <p class="pc-body">Custom concept, all file formats, 2 revisions, and brand colour guidance.</p>
+      <ul class="pc-list"><li><span class="pc-dot"></span>PNG, SVG &amp; PDF files</li><li><span class="pc-dot"></span>2 revisions included</li><li><span class="pc-dot"></span>Colour palette guide</li></ul>
+    </div>
+    <div class="pc hot rv">
+      <div class="pc-badge">Most Popular</div>
+      <div class="pc-tag">Landing Pages</div>
+      <div class="pc-amt">R700</div>
+      <div class="pc-from">Starting — up to R1,800</div>
+      <div class="pc-name">High-Converting Page</div>
+      <p class="pc-body">Mobile-first, SEO-structured page delivered in 5–7 business days.</p>
+      <ul class="pc-list"><li><span class="pc-dot"></span>Custom design</li><li><span class="pc-dot"></span>Contact form included</li><li><span class="pc-dot"></span>SEO foundation</li></ul>
+    </div>
+    <div class="pc rv">
+      <div class="pc-tag">Flyer &amp; Print</div>
+      <div class="pc-amt">R150</div>
+      <div class="pc-from">Starting — up to R500</div>
+      <div class="pc-name">Print &amp; Digital Design</div>
+      <p class="pc-body">Brand-consistent flyers, posters, social kits — print-ready and fast.</p>
+      <ul class="pc-list"><li><span class="pc-dot"></span>Digital + print-ready</li><li><span class="pc-dot"></span>2 revisions included</li><li><span class="pc-dot"></span>48-hour option</li></ul>
+    </div>
+  </div>
+  <div class="price-custom rv">
+    <div>
+      <h3>Full websites · E-commerce · Branding systems</h3>
+      <p>These are scoped individually. Tell us about your project and we'll send a detailed quote within 24 hours. No obligation, no pressure.</p>
+    </div>
+    <a href="#contact" class="btn-a">Get a Custom Quote →</a>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why" id="why">
+  <div class="why-wrap">
+    <div class="rvl">
+      <div class="kicker">Why us</div>
+      <h2 class="h2">We're not an agency.<br>We're your <em>digital partner.</em></h2>
+      <p class="sub" style="margin-bottom:2.2rem">We work with a small number of clients at a time so every project gets the focus it deserves.</p>
+      <a href="#contact" class="btn-a">Let's talk →</a>
+    </div>
+    <div class="why-points rvr">
+      <div class="why-pt"><div class="why-ic">01</div><div><h4>Results-obsessed design</h4><p>Every layout decision and colour choice is made with one goal — getting your visitor to take action.</p></div></div>
+      <div class="why-pt"><div class="why-ic">02</div><div><h4>You talk directly to the designer</h4><p>No account managers, no middlemen. WhatsApp us directly and we respond fast.</p></div></div>
+      <div class="why-pt"><div class="why-ic">03</div><div><h4>Transparent pricing, written quotes</h4><p>You'll always know exactly what you're paying and what you're getting before we start.</p></div></div>
+      <div class="why-pt"><div class="why-ic">04</div><div><h4>We build for the long term</h4><p>From your first logo to ongoing management — we grow with your business as a trusted partner.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-wrap">
+    <div class="rv">
+      <div class="kicker">How it works</div>
+      <h2 class="h2">From idea to live<br><em>in days — not months.</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="step-circle">01</div><h4 class="step-h">You reach out</h4><p class="step-p">Fill in our form or WhatsApp us. Tell us what you need and we respond within 4 hours.</p></div>
+      <div class="step rv"><div class="step-circle">02</div><h4 class="step-h">Free consultation</h4><p class="step-p">A quick WhatsApp chat to understand your goals, budget, and vision.</p></div>
+      <div class="step rv"><div class="step-circle">03</div><h4 class="step-h">Written quote</h4><p class="step-p">You receive a detailed written quote with scope, timeline, and price. Zero obligation.</p></div>
+      <div class="step rv"><div class="step-circle">04</div><h4 class="step-h">Design &amp; deliver</h4><p class="step-p">We build, you review, we refine. Then your new digital presence goes live.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-wrap">
+    <div class="rvl">
+      <div class="kicker">Get in touch</div>
+      <h2 class="h2" style="font-size:clamp(2rem,4vw,3.2rem)">Ready to build<br>something <em>great?</em></h2>
+      <p style="font-size:.9rem;color:rgba(250,248,244,.45);line-height:1.78;margin-top:1rem">We respond within 24 hours and your first consultation is always free.</p>
+      <div class="contact-info">
+        <div><div class="ci-label">WhatsApp</div><div class="ci-val">068 268 5622</div><div class="ci-sub">Text or WhatsApp — we respond fast</div></div>
+        <div><div class="ci-label">Email</div><div class="ci-val">veloraastudios@gmail.com</div></div>
+        <div><div class="ci-label">Based in</div><div class="ci-val">South Africa</div><div class="ci-sub">Serving clients locally &amp; remotely</div></div>
+      </div>
+    </div>
+
+    <div class="rvr">
+      <!--
+        ╔══════════════════════════════════════════════╗
+        ║  FORMSPREE SETUP — 2 minutes, totally free   ║
+        ║  1. Go to https://formspree.io               ║
+        ║  2. Sign up → New Form                       ║
+        ║  3. Set destination: veloraastudios@gmail.com║
+        ║  4. Copy your Form ID (e.g. xrgbkzaw)        ║
+        ║  5. Replace YOUR_FORM_ID in the action below ║
+        ║  Done — submissions land in your Gmail inbox ║
+        ╚══════════════════════════════════════════════╝
+      -->
+      <form
+        id="cform"
+        class="cform"
+        action="https://formspree.io/f/YOUR_FORM_ID"
+        method="POST"
+        novalidate
+        onsubmit="submitForm(event)"
+      >
+        <div class="fr">
+          <div class="fg">
+            <label class="fl" for="fn">Your Name *</label>
+            <input id="fn" name="name" class="fi" type="text" placeholder="Full name" autocomplete="name">
+            <span class="ferr" id="en"></span>
+          </div>
+          <div class="fg">
+            <label class="fl" for="fb">Business Name</label>
+            <input id="fb" name="business" class="fi" type="text" placeholder="Your business" autocomplete="organization">
+          </div>
+        </div>
+        <div class="fg">
+          <label class="fl" for="fe">Email Address *</label>
+          <input id="fe" name="email" class="fi" type="email" placeholder="you@example.com" autocomplete="email">
+          <span class="ferr" id="ee"></span>
+        </div>
+        <div class="fg">
+          <label class="fl" for="fs">Service Needed *</label>
+          <select id="fs" name="service" class="fi">
+            <option value="">Select a service…</option>
+            <option value="Web Design & Development">Web Design &amp; Development</option>
+            <option value="Branding & Logo Design">Branding &amp; Logo Design</option>
+            <option value="Landing Page">Landing Page</option>
+            <option value="E-Commerce Website">E-Commerce Website</option>
+            <option value="Website Management">Website Management</option>
+            <option value="Flyer Design">Flyer Design</option>
+            <option value="Other / Not Sure">Other / Not Sure</option>
+          </select>
+          <span class="ferr" id="es"></span>
+        </div>
+        <div class="fg">
+          <label class="fl" for="fm">About Your Project *</label>
+          <textarea id="fm" name="message" class="fi" placeholder="Tell us your goals, timeline, budget range, or anything else useful…"></textarea>
+          <span class="ferr" id="em"></span>
+        </div>
+        <!-- honeypot -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="_subject" value="New Velora Studios enquiry">
+        <div id="api-err"></div>
+        <button type="submit" class="fsub" id="sbtn">Send My Enquiry →</button>
+        <p class="fnote">Or WhatsApp <strong style="color:var(--amber)">068 268 5622</strong> directly</p>
+      </form>
+
+      <div id="fsuccess">
+        <div style="width:50px;height:50px;border-radius:50%;background:rgba(107,143,113,.12);border:1px solid var(--sage);display:flex;align-items:center;justify-content:center;margin:0 auto 1.4rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Enquiry received!</h3>
+        <p>We'll be in touch within 24 hours. Or WhatsApp us now on <strong style="color:var(--amber)">068 268 5622</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fl-logo">Velora<span class="logo-dot"></span></div>
+  <nav class="fl-links">
+    <a href="#services">Services</a><a href="#portfolio">Work</a>
+    <a href="#pricing">Pricing</a><a href="#process">Process</a><a href="#contact">Contact</a>
+  </nav>
+  <div class="fl-copy">© 2024 Velora Studios · veloraastudios@gmail.com</div>
+</footer>
+
+<script>
+/* Cursor */
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},90);
 });
+document.querySelectorAll('a,button,.svc,.proj,.pc').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px';cur.style.background='var(--rust)';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';cur.style.background='var(--amber)';});
+});
+
+/* Nav */
+function toggleNav(){document.getElementById('nav-links').classList.toggle('open');}
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>60);});
+
+/* Scroll reveal */
+new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');observer.unobserve(e.target);}});
+},{threshold:.1}).observe;
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');}});
+},{threshold:.1});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>observer.observe(el));
+
+/* Form — Formspree */
+function validate(){
+  let ok=true;
+  [{id:'fn',err:'en',test:v=>v.trim().length>1,msg:'Please enter your name.'},
+   {id:'fe',err:'ee',test:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),msg:'Please enter a valid email.'},
+   {id:'fs',err:'es',test:v=>v!=='',msg:'Please select a service.'},
+   {id:'fm',err:'em',test:v=>v.trim().length>8,msg:'Tell us a bit about your project.'},
+  ].forEach(({id,err,test,msg})=>{
+    const el=document.getElementById(id),er=document.getElementById(err);
+    if(!test(el.value)){er.textContent=msg;el.style.borderColor='#F5634A';ok=false;}
+    else{er.textContent='';el.style.borderColor='';}
+  });
+  return ok;
+}
+
+async function submitForm(e){
+  e.preventDefault();
+  if(!validate())return;
+  const form=document.getElementById('cform'),btn=document.getElementById('sbtn'),apiErr=document.getElementById('api-err');
+  btn.disabled=true;btn.textContent='Sending…';apiErr.style.display='none';
+  try{
+    const res=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
+    if(res.ok){form.style.display='none';document.getElementById('fsuccess').style.display='block';}
+    else{throw new Error('failed');}
+  }catch{
+    apiErr.style.display='block';apiErr.style.cssText='display:block;padding:.85rem 1rem;background:rgba(240,80,50,.08);border:1px solid rgba(240,80,50,.25);font-size:.8rem;color:#F5634A;margin-bottom:.5rem;';
+    apiErr.textContent='Something went wrong. Email us at veloraastudios@gmail.com or WhatsApp 068 268 5622.';
+    btn.disabled=false;btn.textContent='Send My Enquiry →';
+  }
+}
 </script>
 </body>
 </html>
